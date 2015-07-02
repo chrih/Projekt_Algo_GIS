@@ -1,0 +1,8 @@
+todo: 
+
+- tree
+- priority queue und berechnungen
+- zwei algos implementieren 
+- rausschreiben von daten 
+- daten von salzburg verkleinern
+- Point Klasse
