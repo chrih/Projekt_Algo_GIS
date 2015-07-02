@@ -1,8 +1,7 @@
 todo: 
 
-- tree
-- priority queue und berechnungen
-- zwei algos implementieren 
-- rausschreiben von daten 
-- daten von salzburg verkleinern
-- Point Klasse
+- tree: moritz
+- priority queue und berechnungen (winkel): 
+- zwei algos implementieren: "standard": bernhard, vanKrefeld: chrissy
+- rausschreiben von daten: jona
+- daten von salzburg verkleinern: chrissy, jona
