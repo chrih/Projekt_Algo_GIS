@@ -78,7 +78,7 @@ public class PointOnLineFinderTest {
 	}
 	
 	private static Point p(int x, int y) {
-		return new Point(x, y, 0);
+		return new Point(x, y);
 	}
 
 }

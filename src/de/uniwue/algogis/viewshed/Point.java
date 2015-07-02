@@ -13,16 +13,10 @@ public class Point {
 
     private int xCoor;
     private int yCoor;
-    private double height;
 
-    public Point(int x, int y, double h) {
+    public Point(int x, int y) {
         this.xCoor = x;
         this.yCoor = y;
-        this.height = h;
-    }
-
-    public double getHeight() {
-        return this.height;
     }
 
     public int getXCoor() {
@@ -39,22 +33,15 @@ public class Point {
         return Math.sqrt(distX*distX + distY*distY);
     }
 
-    public double calcSlope(Point p1) {
-        return ((p1.getHeight()-this.getHeight())/calcDistance(p1));
-    }
-
 	@Override
 	public String toString() {
-		return "Point [xCoor=" + xCoor + ", yCoor=" + yCoor + ", height=" + height + "]";
+		return "Point [xCoor=" + xCoor + ", yCoor=" + yCoor + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(height);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + xCoor;
 		result = prime * result + yCoor;
 		return result;
@@ -69,14 +56,11 @@ public class Point {
 		if (getClass() != obj.getClass())
 			return false;
 		Point other = (Point) obj;
-		if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
-			return false;
 		if (xCoor != other.xCoor)
 			return false;
 		if (yCoor != other.yCoor)
 			return false;
 		return true;
 	}
-    
     
 }

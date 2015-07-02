@@ -95,8 +95,8 @@ public class Dem {
 		return data[x][y];
 	}
 	
-	public Point getPoint(int x, int y) {
-		return new Point(x, y, data[x][y]);
+	public HeightedPoint getHeightedPoint(int x, int y) {
+		return new HeightedPoint(x, y, data[x][y]);
 	}
 	
 	public double[][] getDem() {
