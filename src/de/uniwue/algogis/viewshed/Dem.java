@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 
 public class Dem {
 	
-	private double[][] data;
+	protected double[][] data;
 	private int ncols, nrows, xllcorner, yllcorner, cellsize;
 	private double nodata;
 	
