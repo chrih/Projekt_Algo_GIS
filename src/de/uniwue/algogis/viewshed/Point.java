@@ -11,9 +11,9 @@ package de.uniwue.algogis.viewshed;
  */
 public class Point {
 
-    private double height;
     private int xCoor;
     private int yCoor;
+    private double height;
 
     public Point(int x, int y, double h) {
         this.xCoor = x;
@@ -42,4 +42,41 @@ public class Point {
     public double calcSlope(Point p1) {
         return ((p1.getHeight()-this.getHeight())/calcDistance(p1));
     }
+
+	@Override
+	public String toString() {
+		return "Point [xCoor=" + xCoor + ", yCoor=" + yCoor + ", height=" + height + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(height);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + xCoor;
+		result = prime * result + yCoor;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
+			return false;
+		if (xCoor != other.xCoor)
+			return false;
+		if (yCoor != other.yCoor)
+			return false;
+		return true;
+	}
+    
+    
 }
