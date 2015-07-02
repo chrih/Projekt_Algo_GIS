@@ -13,10 +13,10 @@ public class Point {
 
     private double height;
     private double slope;
-    private double xCoor;
-    private double yCoor;
+    private int xCoor;
+    private int yCoor;
 
-    public Point(double x, double y, double h) {
+    public Point(int x, int y, double h) {
         this.xCoor = x;
         this.yCoor = y;
         this.height = h;
@@ -26,11 +26,11 @@ public class Point {
         return this.height;
     }
 
-    public double getXCoor() {
+    public int getXCoor() {
         return this.xCoor;
     }
 
-    public double getYCoor() {
+    public int getYCoor() {
         return this.yCoor;
     }
 
