@@ -21,6 +21,7 @@ public class Dem {
 		this.yllcorner = yllcorner;
 		this.cellsize = cellsize;
 		this.nodata = nodata;
+		this.data = data;
 	}
 	
 	public Dem(String path) {
