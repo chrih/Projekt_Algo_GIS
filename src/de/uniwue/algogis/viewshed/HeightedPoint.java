@@ -62,4 +62,8 @@ public class HeightedPoint extends Point {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "HeightedPoint [getXCoor()=" + getXCoor() + ", getYCoor()=" + getYCoor() + ", height=" + height + "]";
+	}
 }
