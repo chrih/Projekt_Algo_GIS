@@ -2,13 +2,21 @@ package de.uniwue.algogis.viewshed.bruteforce;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.function.BiFunction;
 
 import de.uniwue.algogis.viewshed.Point;
 
-public class PointOnLineFinder {
+public class PointOnLineFinder <P> {
+	
+	private BiFunction<Integer, Integer, P> pointConstructor;
+	
+	public PointOnLineFinder(BiFunction<Integer, Integer, P> pointConstructor) {
+		super();
+		this.pointConstructor = pointConstructor;
+	}
 
-	public Collection<Point> findPointsOnLine(Point from, Point to) {
-		Collection<Point> result = new LinkedList<>();
+	public Collection<P> findPointsOnLine(Point from, Point to) {
+		Collection<P> result = new LinkedList<>();
 		
 		int xStep = signum(to.getXCoor() - from.getXCoor());
 		int yStep =  signum(to.getYCoor() - from.getYCoor());
@@ -35,11 +43,11 @@ public class PointOnLineFinder {
 		return result;
 	}
 	
-	private void generatePoints(Collection<Point> result, int x, int yStart, int yEnd, int yStep, Point from, Point to) {
+	private void generatePoints(Collection<P> result, int x, int yStart, int yEnd, int yStep, Point from, Point to) {
 		for(int y = yStart; y*yStep <= yEnd*yStep; y += yStep) {
 			if(   (x != from.getXCoor() || y != from.getYCoor())
 			   && (x != to.  getXCoor() || y != to.  getYCoor())) {
-				result.add(new Point(x, y, 0));
+				result.add(pointConstructor.apply(x,y));
 			}
 		}
 	}
