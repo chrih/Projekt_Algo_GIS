@@ -12,7 +12,6 @@ package de.uniwue.algogis.viewshed;
 public class Point {
 
     private double height;
-    private double slope;
     private int xCoor;
     private int yCoor;
 
