@@ -95,6 +95,10 @@ public class Dem {
 		return data[x][y];
 	}
 	
+	public Point getPoint(int x, int y) {
+		return new Point(x, y, data[x][y]);
+	}
+	
 	public double[][] getDem() {
 		double[][] copy = new double[data.length][];
 		for(int i = 0; i < data.length; i++) {
