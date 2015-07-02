@@ -6,14 +6,14 @@ class BinaryNode {
     BinaryNode left;
     BinaryNode right;
 
-    BinaryNode(Comparable theElement) {
-        this(theElement, null, null);
+    BinaryNode(Comparable compElement) {
+        this(compElement, null, null);
     }
 
-    BinaryNode(Comparable theElement, BinaryNode lt, BinaryNode rt) {
-        element = theElement;
-        left = lt;
-        right = rt;
+    BinaryNode(Comparable compElement, BinaryNode leftNode, BinaryNode rightNode) {
+        this.element = compElement;
+        this.left = leftNode;
+        this.right = rightNode;
     }
 
 }

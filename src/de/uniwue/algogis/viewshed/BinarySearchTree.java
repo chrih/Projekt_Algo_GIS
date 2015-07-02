@@ -2,36 +2,35 @@ package de.uniwue.algogis.viewshed;
 
 public class BinarySearchTree {
 
+    // root of the tree
     private BinaryNode root;
 
+    // default constructor 
     public BinarySearchTree() {
         root = null;
     }
 
-    public void insert(Comparable x) {
+    // insert element  
+    public void insertElement(Comparable x) {
         root = insert(x, root);
     }
 
-    public void remove(Comparable x) {
+    // remove element
+    public void removeElement(Comparable x) {
         root = remove(x, root);
     }
 
-    public Comparable findMin() {
-        return elementAt(findMin(root));
+    // find element
+    public Comparable findElement(Comparable x) {
+        return getElementAt(find(x, root));
     }
-
-    public Comparable findMax() {
-        return elementAt(findMax(root));
-    }
-
-    public Comparable find(Comparable x) {
-        return elementAt(find(x, root));
-    }
-
-    public void makeEmpty() {
+    
+    // empty tree
+    public void emptyTree() {
         root = null;
     }
 
+    // check if tree is empty
     public boolean isEmpty() {
         return root == null;
     }
@@ -44,15 +43,20 @@ public class BinarySearchTree {
         }
     }
 
-    private Comparable elementAt(BinaryNode t) {
+    // get element at node t
+    private Comparable getElementAt(BinaryNode t) {
         return t == null ? null : t.element;
     }
 
+    // insert node into tree
     private BinaryNode insert(Comparable x, BinaryNode t) {
+        // no node existing
         if (t == null) {
             t = new BinaryNode(x, null, null);
+            // go node to the left
         } else if (x.compareTo(t.element) < 0) {
             t.left = insert(x, t.left);
+            // go node to the right
         } else if (x.compareTo(t.element) > 0) {
             t.right = insert(x, t.right);
         } else {
@@ -60,6 +64,7 @@ public class BinarySearchTree {
         return t;
     }
 
+    // remove node from tree
     private BinaryNode remove(Comparable x, BinaryNode t) {
         if (t == null) {
             return t;
@@ -77,6 +82,7 @@ public class BinarySearchTree {
         return t;
     }
 
+    // find minimum from node t on
     private BinaryNode findMin(BinaryNode t) {
         if (t == null) {
             return null;
@@ -86,6 +92,7 @@ public class BinarySearchTree {
         return findMin(t.left);
     }
 
+    // find maximum from node t
     private BinaryNode findMax(BinaryNode t) {
         if (t != null) {
             while (t.right != null) {
@@ -96,6 +103,7 @@ public class BinarySearchTree {
         return t;
     }
 
+    // find element 
     private BinaryNode find(Comparable x, BinaryNode t) {
         if (t == null) {
             return null;
@@ -109,6 +117,7 @@ public class BinarySearchTree {
         }
     }
 
+    // print 
     private void printTree(BinaryNode t) {
         if (t != null) {
             printTree(t.left);
