@@ -93,11 +93,15 @@ public class Dem {
 	}
 	
 	public double getHeight(int x, int y) {
-		return data[x][y];
+		return data[y][x];
 	}
 	
 	public HeightedPoint getHeightedPoint(int x, int y) {
-		return new HeightedPoint(x, y, data[x][y]);
+		return new HeightedPoint(x, y, getHeight(x, y));
+	}
+	
+	public HeightedPoint getHeightedPoint(Point p) {
+		return getHeightedPoint(p.getXCoor(), p.getYCoor());
 	}
 	
 	public double[][] getDem() {
