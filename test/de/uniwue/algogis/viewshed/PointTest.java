@@ -20,11 +20,18 @@ public class PointTest {
 
 	@Test
 	public void testCalcDistance() {
-		Point p1 = new Point(1, 1);
-		Point p2 = new Point(5, 4);
+		Point p1 = new Point(2, 4);
+		Point p2 = new Point(6, 7);
 		assertEquals(5.0, p1.calcDistance(p2), 0.0001);
 	}
-
+	
+	@Test
+	public void testCalcGradient() {
+		Point p1 = new Point(2, 4);
+		Point p2 = new Point(6, 7);
+		assertEquals(0.75, p1.calcGradient(p2), 0.0001);
+	}
+	
 	@Test
 	public void testEquals() {
 		Point p1 = new Point(1, 2);

@@ -28,7 +28,7 @@ public class PointOnLineFinder <P> {
 			
 			generatePoints(result, x, yStart, yEnd, yStep, from, to);
 		} else {
-			double a = (double) (to.getYCoor()-from.getYCoor())/(to.getXCoor()-from.getXCoor());
+			double a = from.calcGradient(to);
 			double b = from.getYCoor() + 0.5*yStep - a * (from.getXCoor() + 0.5*xStep);  
 			
 			for(int x = from.getXCoor(); x*xStep <= to.getXCoor()*xStep; x += xStep) {

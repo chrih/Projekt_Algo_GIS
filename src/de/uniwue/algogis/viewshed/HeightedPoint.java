@@ -22,8 +22,13 @@ public class HeightedPoint extends Point {
         return this.height;
     }
     
-    public double calcSlope(HeightedPoint p1) {
-        return ((p1.getHeight()-this.getHeight())/calcDistance(p1));
+    /**
+     * Calculate the slope to another point in 3D space.
+     * @param to Other point
+     * @return A value <tt>s</tt> such that <tt> to.height - this.height = s * distance</tt>.
+     */
+    public double calcSlope(HeightedPoint to) {
+        return ((to.getHeight()-this.getHeight())/calcDistance(to));
     }
 
 	@Override

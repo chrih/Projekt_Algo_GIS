@@ -26,11 +26,25 @@ public class Point {
     public int getYCoor() {
         return this.yCoor;
     }
-
-    public double calcDistance(Point p1) {
-        double distX = this.getXCoor() - p1.getXCoor();
-        double distY = this.getYCoor() - p1.getYCoor();
+    
+    /**
+     * Calculates the euclidean distance to another point in 2D space.
+     * @param to Other point
+     * @return Distance between this point and <tt>to</tt>
+     */
+    public double calcDistance(Point to) {
+        double distX = this.getXCoor() - to.getXCoor();
+        double distY = this.getYCoor() - to.getYCoor();
         return Math.sqrt(distX*distX + distY*distY);
+    }
+
+    /**
+     * Calculates the direction to the other point in a 2D plane.
+     * @param to Other point
+     * @return A value <tt>g</tt> such that <tt>dx * g = dy</tt>
+     */
+    public double calcGradient(Point to) {
+       return (double) (to.getYCoor()-this.getYCoor()) / (to.getXCoor()-this.getXCoor());
     }
 
 	@Override
