@@ -21,13 +21,7 @@ public class HeightedPoint extends Point {
     public double getHeight() {
         return this.height;
     }
-
-    public double calcDistance(HeightedPoint p1) {
-        double distX = this.getXCoor() - p1.getXCoor();
-        double distY = this.getYCoor() - p1.getYCoor();
-        return Math.sqrt(distX*distX + distY*distY);
-    }
-
+    
     public double calcSlope(HeightedPoint p1) {
         return ((p1.getHeight()-this.getHeight())/calcDistance(p1));
     }
