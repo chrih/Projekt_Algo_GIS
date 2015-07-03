@@ -29,11 +29,6 @@ public class PointOnLineFinderTest {
 	public int yFactor;
 
 	@Test
-	public void testCalculateViewshed() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
 	public void testFindPointsOnLine() {
 		Point p1 = p(1*xFactor, 2*yFactor);
 		Point p2 = p(3*xFactor, 7*yFactor);
