@@ -31,11 +31,14 @@ public class PointTest {
 		Point p2 = new Point(1, 2);
 		Point p3 = new Point(1, 0);
 		Point p4 = new Point(0, 2);
+		String p5 = "test";
 		assertEquals(p1, p1);
 		assertEquals(p2, p1);
 		assertEquals(p1, p2);
 		assertNotEquals(p1, p3);
 		assertNotEquals(p1, p4);
+		assertNotEquals(p1, p5);
+		assertNotEquals(p5, p1);
 	}
 
 }

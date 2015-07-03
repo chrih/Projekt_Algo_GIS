@@ -16,17 +16,17 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class PointOnLineFinderTest {
+	
 	@Parameters(name = "x*{0}, y*{1}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {{ 1, 1 }, { 1, -1 }, { -1, 1 }, { -1,-1 } });
-    }
-    
-    @Parameter(0)
-    public int xFactor;
-
-    @Parameter(1)
-    public int yFactor;
-
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {{ 1, 1 }, { 1, -1 }, { -1, 1 }, { -1,-1 } });
+	}
+	
+	@Parameter(0)
+	public int xFactor;
+	
+	@Parameter(1)
+	public int yFactor;
 
 	@Test
 	public void testCalculateViewshed() {
