@@ -1,7 +1,0 @@
-todo: 
-
-- tree: moritz
-- priority queue und berechnungen (winkel): 
-- zwei algos implementieren: "standard": bernhard, vanKrefeld: chrissy
-- rausschreiben von daten: jona
-- daten von salzburg verkleinern: chrissy, jona
