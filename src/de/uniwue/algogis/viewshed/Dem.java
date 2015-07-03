@@ -1,7 +1,12 @@
 package de.uniwue.algogis.viewshed;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -59,7 +64,10 @@ public class Dem {
 					data[row][col] = scanner.nextDouble();
 				});
 			});
-			// TODO: alles weitere ignorieren, falls hier noch etwas in der Datei steht?
+			
+			if (scanner.hasNext()) {
+				throw new InputMismatchException();
+			}
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("The file could not be found:");
@@ -108,18 +116,53 @@ public class Dem {
 	}
 	
 	public double[][] getDem() {
-		double[][] copy = new double[data.length][];
+		double[][] copy = new double[nrows][ncols];
 		for(int i = 0; i < data.length; i++) {
-		  double[] row = data[i];
-		  copy[i] = new double[row.length];
-		  System.arraycopy(row, 0, copy[i], 0, row.length);
-		}
-		return copy;
+			  System.arraycopy(data[i], 0, copy[i], 0, data[i].length);
+			}
+		return data;
 	}
 	
 	@Override
 	public String toString() {
 		return Stream.of(data).map(Arrays::toString).collect(Collectors.joining(",\n"));
 	}
-
+	
+	public void exportToFile(String path) {
+		File file = new File(path);
+		
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
+		df.applyPattern("#0.0#");
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			writer.append("ncols\t"+getNcols());
+			writer.newLine();
+			writer.append("nrows\t"+getNrows());
+			writer.newLine();
+			writer.append("xllcorner\t"+getXllcorner());
+			writer.newLine();
+			writer.append("yllcorner\t"+getYllcorner());
+			writer.newLine();
+			writer.append("cellsize\t"+getCellsize());
+			writer.newLine();
+			writer.append("NODATA_value\t"+getNodata());
+			writer.newLine();
+			
+			for(int j = 0; j < nrows; j++) {
+				for(int i = 0; i < ncols; i++) {
+					writer.append(df.format(data[j][i]));
+					if (i != ncols-1)
+						writer.append(" ");
+				}
+				if (j != nrows-1)
+					writer.newLine();
+			}
+			
+		}
+		catch (IOException e) {
+			System.err.println("An error occurred while exporting the data.");
+		}
+		
+		
+	}
 }
