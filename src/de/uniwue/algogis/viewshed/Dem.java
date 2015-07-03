@@ -9,14 +9,16 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-public class Dem {
+public class Dem implements Iterable<HeightedPoint> {
 	
 	protected double[][] data;
 	private int ncols, nrows, xllcorner, yllcorner, cellsize;
@@ -165,4 +167,36 @@ public class Dem {
 		
 		
 	}
+	
+	public Stream<HeightedPoint> stream() {
+		return StreamSupport.stream(spliterator(), false);
+	}
+
+	@Override
+	public Iterator<HeightedPoint> iterator() {
+		return new DemIterator();
+	}
+	
+	public class DemIterator implements Iterator<HeightedPoint> {
+		private int x;
+		private int y;
+		
+		@Override
+		public boolean hasNext() {
+			return y < getNrows();
+		}
+		@Override
+		public HeightedPoint next() {
+			if(!hasNext()) throw new NoSuchElementException();
+			HeightedPoint next = getHeightedPoint(x, y);
+			x++;
+			if(x >= getNcols()) {
+				x = 0;
+				y++;
+			}
+			return next;
+		}
+		
+	}
+
 }

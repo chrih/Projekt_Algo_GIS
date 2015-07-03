@@ -15,14 +15,12 @@ public class BruteForceViewshedAnalysis implements ViewshedAnalysis {
 		
 		PointOnLineFinder<HeightedPoint> polf = new PointOnLineFinder<HeightedPoint>(d::getHeightedPoint);
 		
-		for (int x = 0; x < d.getNcols(); x++) {
-			for(int y = 0; y < d.getNrows(); y++) {
-				HeightedPoint target = d.getHeightedPoint(x, y);
-				Collection<HeightedPoint> points = polf.findPointsOnLine(origin, target);
-				boolean visible = points.stream().allMatch(p -> origin.calcSlope(p) < origin.calcSlope(target));
-				result.setHeight(target, visible ? 1 : 0);
-			}
-		}
+		d.forEach(target -> {
+			Collection<HeightedPoint> points = polf.findPointsOnLine(origin, target);
+			boolean visible = points.stream().allMatch(p -> origin.calcSlope(p) < origin.calcSlope(target));
+			result.setHeight(target, visible ? 1 : 0);
+		});
+		
 		
 		return result;
 	}
