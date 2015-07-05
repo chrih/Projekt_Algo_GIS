@@ -2,7 +2,7 @@ package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.HeightedPoint;
 
-public class StatusStructure { // TODO: augmentieren (beim Einfügen und Löschen maxSlope aktualisieren)
+public class StatusStructure {
     private StatusEntry root;
 
     private HeightedPoint reference;
