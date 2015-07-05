@@ -10,7 +10,7 @@ public class BruteForceViewshedAnalysisTest {
 
 	@Test
 	public void testCalculateViewshedObstacles() {
-		Dem d = new Dem("testfile_obstacles.grd");
+		Dem d = new Dem("resources/testfile_obstacles.grd");
 		System.out.println(d);
 		
 		BruteForceViewshedAnalysis bfva = new BruteForceViewshedAnalysis();
@@ -31,7 +31,7 @@ public class BruteForceViewshedAnalysisTest {
 
 	@Test
 	public void testCalculateViewshedCircle() {
-		Dem d = new Dem("testfile_circle.grd");
+		Dem d = new Dem("resources/testfile_circle.grd");
 		System.out.println(d);
 		
 		BruteForceViewshedAnalysis bfva = new BruteForceViewshedAnalysis();
