@@ -117,7 +117,7 @@ public class StatusStructure {
                 x = x.left;
             } else {
                 x = x.right;
-                maxSlope = Math.max(maxSlope, maxSlopeOf(p.left));
+                maxSlope = Math.max(maxSlope, Math.max(maxSlopeOf(p.left), p.slope));
             }
         }
         if (x == null) { // didn't find pt
