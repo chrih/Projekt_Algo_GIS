@@ -1,7 +1,6 @@
 package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.HeightedPoint;
-import de.uniwue.algogis.viewshed.Point;
 
 /*
  * TODO: Diese Klasse muss irgendwie geordnet werden können.
@@ -11,12 +10,8 @@ import de.uniwue.algogis.viewshed.Point;
  *       Wahrscheinlich ist es auch sinnvoll, noch ein Attribut für den Winkel hinzuzufügen
  *        (welches dann für die Implementierung von Comparable<> verwendet werden kann).
  */
-<<<<<<< HEAD
 public class SweepEvent implements Comparable<SweepEvent> {
 
-=======
-public class SweepEvent implements Comparable<SweepEvent>{
->>>>>>> bfa00599dad1d5024d99865d4569e35aac523cd9
     public enum EventType {
 
         IN, CENTER, OUT
@@ -39,7 +34,6 @@ public class SweepEvent implements Comparable<SweepEvent>{
         return this.type;
     }
 
-<<<<<<< HEAD
     /**
      * berechnet den Winkel vom Startpunkt aus zu allen vier Ecken eines Pixels
      *
@@ -61,7 +55,7 @@ public class SweepEvent implements Comparable<SweepEvent>{
             // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ OUT    
         } else if (dy == 0 && dx > 0 && type == EventType.OUT) {
             double angle = Math.atan2(dy + 0.5, dx - 0.5);
-            return angle;    
+            return angle;
         } else if (type == EventType.CENTER) {
             double angle = Math.atan2(dy, dx);
             if (angle < 0) {
@@ -69,7 +63,7 @@ public class SweepEvent implements Comparable<SweepEvent>{
             }
             return angle;
         // EventType IN: vier Ecken als moegliche Kandidaten
-        // berechne alle vier Winkel zu den Ecken und nehme den kleinsten
+            // berechne alle vier Winkel zu den Ecken und nehme den kleinsten
         } else if (type == EventType.IN) {
             double a1 = Math.atan2(dy + 0.5, dx + 0.5);
             if (a1 < 0) {
@@ -122,9 +116,10 @@ public class SweepEvent implements Comparable<SweepEvent>{
 
     @Override
     /**
-     * vergleicht Winkel zwischen zwei SweepEvents und fuegt sie dementsprechend in die priority queue ein
-     * sortiert zuerst nach Winkel, falls dieser gleich ist nach Distanz zum Startpunkt und falls diese gleich 
-     * ist nach Typ (OUT vor IN)
+     * vergleicht Winkel zwischen zwei SweepEvents und fuegt sie dementsprechend
+     * in die priority queue ein sortiert zuerst nach Winkel, falls dieser
+     * gleich ist nach Distanz zum Startpunkt und falls diese gleich ist nach
+     * Typ (OUT vor IN)
      */
     public int compareTo(SweepEvent b) {
         if (calcAngle() < b.calcAngle()) {
@@ -140,72 +135,4 @@ public class SweepEvent implements Comparable<SweepEvent>{
         }
         return 0;
     }
-=======
-    public double calcAngle() {
-    	double dy = point.getYCoor()-view.getYCoor();
-    	double dx = point.getXCoor()-view.getXCoor(); 
-    	
-    	if (dy == 0 && dx > 0 && type == EventType.IN) {
-    		double angle = Math.atan2(dy+0.5, dx+0.5);
-    		angle += 2*Math.PI;
-        	return angle;
-    	} else if (dy == 0 && dx > 0 && type == EventType.OUT) {
-    		double angle = Math.atan2(dy+0.5, dx-0.5);
-        	return angle;
-        } else if (type == EventType.CENTER) {
-    		double angle =  Math.atan2(dy,dx);
-        	if (angle < 0) {
-        		angle += 2*Math.PI;
-        	}
-        	return angle;
-    	} else if (type == EventType.IN) {
-    		double a1 = Math.atan2(dy+0.5, dx+0.5);  
-    		if (a1 < 0) a1 += 2*Math.PI;
-    		double a2 = Math.atan2(dy-0.5, dx+0.5);
-    		if (a2 < 0) a2 += 2*Math.PI;
-    		double a3 = Math.atan2(dy+0.5, dx-0.5);
-    		if (a3 < 0) a3 += 2*Math.PI;
-    		double a4 = Math.atan2(dy-0.5, dx-0.5);
-    		if (a4 < 0) a4 += 2*Math.PI;
-    		
-    		double angle = Math.min(Math.min(a1, a2), Math.min(a3, a4));
-        	return angle;
-    	} else {
-    		double a1 = Math.atan2(dy+0.5, dx+0.5);  
-    		if (a1 < 0) a1 += 2*Math.PI;
-    		double a2 = Math.atan2(dy-0.5, dx+0.5);
-    		if (a2 < 0) a2 += 2*Math.PI;
-    		double a3 = Math.atan2(dy+0.5, dx-0.5);
-    		if (a3 < 0) a3 += 2*Math.PI;
-    		double a4 = Math.atan2(dy-0.5, dx-0.5);
-    		if (a4 < 0) a4 += 2*Math.PI;
-    		
-    		double angle = Math.max(Math.max(a1, a2), Math.max(a3, a4));
-        	if (angle < 0) {
-        		angle += 2*Math.PI;
-        	}
-        	return angle;
-    	}
-    }
-    
-    public double calcDistance() {
-    	return view.calcDistance(point);
-    }
-    
-	@Override
-	public int compareTo(SweepEvent b) {
-		if(calcAngle() < b.calcAngle()) {
-			return -1;
-		} else if (calcAngle() > b.calcAngle()) {
-			return 1;
-		} else if (calcDistance() < b.calcDistance()) {
-			return -1;
-		} else if (calcDistance() > b.calcDistance()) {
-			return 1;
-		} else if (this.type == EventType.IN) {
-			return -1;
-		}
-		return 0;
-	}
->>>>>>> bfa00599dad1d5024d99865d4569e35aac523cd9
 }
