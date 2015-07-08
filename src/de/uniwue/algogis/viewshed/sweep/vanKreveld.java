@@ -23,7 +23,8 @@ public class vanKreveld implements ViewshedAnalysis {
 
     @Override
     public Dem calculateViewshed(Dem d, HeightedPoint origin) {
-        eventList = new PriorityQueue<SweepEvent>();
+        int listCapacity = d.getNcols() * d.getNrows() * 3;
+        eventList = new PriorityQueue<SweepEvent>(listCapacity);
         ModifiableDem input = new ModifiableDem(d);
         statStruc = new StatusStructure(origin);
         for (HeightedPoint p : d) {
