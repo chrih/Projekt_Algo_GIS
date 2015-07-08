@@ -34,18 +34,18 @@ public class SweepEvent implements Comparable<SweepEvent> {
      * @return Winkel zwischen Startpunkt und Eckpunkt eines Pixels
      */
     public double calcAngle() {
-        double dy = point.getYCoor() - view.getYCoor();
+        double dy = view.getYCoor() - point.getYCoor();
         double dx = point.getXCoor() - view.getXCoor();
 
         // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ IN
         // dann wird die entsprechende Ecke des Pixels herausgesucht und der Winkel dazu berechnet
         if (dy == 0 && dx > 0 && type == EventType.IN) {
-            double angle = Math.atan2(dy + 0.5, dx + 0.5);
+            double angle = Math.atan2(-0.5, dx - 0.5);
             angle += 2 * Math.PI;
             return angle;
         // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ OUT    
         } else if (dy == 0 && dx > 0 && type == EventType.OUT) {
-            double angle = Math.atan2(dy + 0.5, dx - 0.5);
+            double angle = Math.atan2(+0.5, dx - 0.5);
             return angle;
         } else if (type == EventType.CENTER) {
             double angle = Math.atan2(dy, dx);

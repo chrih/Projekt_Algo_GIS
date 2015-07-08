@@ -42,7 +42,9 @@ public class vanKreveld implements ViewshedAnalysis {
         }
 
         // die event list durchgehen
-        for (SweepEvent s : eventList) {
+        
+        while (!eventList.isEmpty()) {
+        	SweepEvent s = eventList.poll();
             switch (s.getType()) {
                 // wenn IN: Punkt in Baum einfuegen
                 case IN:
