@@ -2,18 +2,9 @@ package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.HeightedPoint;
 
-/*
- * TODO: Diese Klasse muss irgendwie geordnet werden können.
- *       Dazu kann man diese Klasse Comparable<SweepEvent> implementieren lassen
- *       oder dem Konstruktor von PriorityQueue einen Comparator übergeben.
- *
- *       Wahrscheinlich ist es auch sinnvoll, noch ein Attribut für den Winkel hinzuzufügen
- *        (welches dann für die Implementierung von Comparable<> verwendet werden kann).
- */
 public class SweepEvent implements Comparable<SweepEvent> {
 
     public enum EventType {
-
         IN, CENTER, OUT
     }
 
@@ -47,12 +38,12 @@ public class SweepEvent implements Comparable<SweepEvent> {
         double dx = point.getXCoor() - view.getXCoor();
 
         // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ IN
-        // dann wir die entsprechende Ecke des Pixels herausgesucht und der Winkel dazu berechnet
+        // dann wird die entsprechende Ecke des Pixels herausgesucht und der Winkel dazu berechnet
         if (dy == 0 && dx > 0 && type == EventType.IN) {
             double angle = Math.atan2(dy + 0.5, dx + 0.5);
             angle += 2 * Math.PI;
             return angle;
-            // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ OUT    
+        // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ OUT    
         } else if (dy == 0 && dx > 0 && type == EventType.OUT) {
             double angle = Math.atan2(dy + 0.5, dx - 0.5);
             return angle;
@@ -63,7 +54,7 @@ public class SweepEvent implements Comparable<SweepEvent> {
             }
             return angle;
         // EventType IN: vier Ecken als moegliche Kandidaten
-            // berechne alle vier Winkel zu den Ecken und nehme den kleinsten
+        // berechne alle vier Winkel zu den Ecken und nehme den kleinsten
         } else if (type == EventType.IN) {
             double a1 = Math.atan2(dy + 0.5, dx + 0.5);
             if (a1 < 0) {
@@ -103,9 +94,6 @@ public class SweepEvent implements Comparable<SweepEvent> {
             }
 
             double angle = Math.max(Math.max(a1, a2), Math.max(a3, a4));
-            if (angle < 0) {
-                angle += 2 * Math.PI;
-            }
             return angle;
         }
     }

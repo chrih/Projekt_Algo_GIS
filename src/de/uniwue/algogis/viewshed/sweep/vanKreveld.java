@@ -15,10 +15,7 @@ import java.util.PriorityQueue;
  * @date 08.07.2015
  * @author Christina Hempfling, Jona Kalkus, Moritz Beck, Bernhard Haeussner
  */
-public class vanKrefeld implements ViewshedAnalysis {
-
-    // Liste mit Punkten rechts des Startpunkts
-    boolean[][] pointsVisible;
+public class vanKreveld implements ViewshedAnalysis {
     // event list als Prioritaetswarteschlange
     PriorityQueue<SweepEvent> eventList;
     // Baum, in dem die Sweepevents gespeichert werden
@@ -80,7 +77,6 @@ public class vanKrefeld implements ViewshedAnalysis {
     private HeightedPoint[] pointsOnLine(ModifiableDem input, HeightedPoint viewpoint) {
         int xCoor = viewpoint.getXCoor();
         int maxXCoor = input.getNcols();
-        int len = maxXCoor - xCoor - 1;
         HeightedPoint[] onLine = new HeightedPoint[maxXCoor - xCoor - 1];
         int j = 0;
         for (int i = (xCoor + 1); i < maxXCoor; i++) {
@@ -94,7 +90,7 @@ public class vanKrefeld implements ViewshedAnalysis {
 //        Dem test = new Dem("testfile_circle.grd");
 //        HeightedPoint viewpoint = new HeightedPoint(5, 5, 60);
 //
-//        vanKrefeld viewshed = new vanKrefeld();
+//        vanKreveld viewshed = new vanKreveld();
 //        Dem result = viewshed.calculateViewshed(test, viewpoint);
 //        result.exportToFile("testfile_circle_out.grd");
 //    }
