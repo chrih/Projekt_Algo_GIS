@@ -10,11 +10,11 @@ package de.uniwue.algogis.viewshed;
  * @author chrissy
  */
 public class HeightedPoint extends Point {
-	
-	private double height;
+    
+    private double height;
 
     public HeightedPoint(int x, int y, double h) {
-    	super(x, y);
+        super(x, y);
         this.height = h;
     }
 
@@ -31,38 +31,38 @@ public class HeightedPoint extends Point {
         return ((to.getHeight()-this.getHeight())/calcDistance(to));
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		long temp;
-		temp = java.lang.Double.doubleToLongBits(height);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + getXCoor();
-		result = prime * result + getYCoor();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        long temp;
+        temp = java.lang.Double.doubleToLongBits(height);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + getXCoor();
+        result = prime * result + getYCoor();
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HeightedPoint other = (HeightedPoint) obj;
-		if (java.lang.Double.doubleToLongBits(height) != java.lang.Double.doubleToLongBits(other.height))
-			return false;
-		if (getXCoor() != other.getXCoor())
-			return false;
-		if (getYCoor() != other.getYCoor())
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        HeightedPoint other = (HeightedPoint) obj;
+        if (java.lang.Double.doubleToLongBits(height) != java.lang.Double.doubleToLongBits(other.height))
+            return false;
+        if (getXCoor() != other.getXCoor())
+            return false;
+        if (getYCoor() != other.getYCoor())
+            return false;
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "HeightedPoint [getXCoor()=" + getXCoor() + ", getYCoor()=" + getYCoor() + ", height=" + height + "]";
-	}
+    @Override
+    public String toString() {
+        return "HeightedPoint [getXCoor()=" + getXCoor() + ", getYCoor()=" + getYCoor() + ", height=" + height + "]";
+    }
 }

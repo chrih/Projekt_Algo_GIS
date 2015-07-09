@@ -41,10 +41,12 @@ public class vanKreveld implements ViewshedAnalysis {
             statStruc.insert(hp);
         }
 
+        // the origin is always visible
+        input.setHeight(origin, 1);
+
         // die event list durchgehen
-        
         while (!eventList.isEmpty()) {
-        	SweepEvent s = eventList.poll();
+            SweepEvent s = eventList.poll();
             switch (s.getType()) {
                 // wenn IN: Punkt in Baum einfuegen
                 case IN:
@@ -75,7 +77,7 @@ public class vanKreveld implements ViewshedAnalysis {
      * @param input Eingabe-DEM
      * @param viewpoint Startpunkt, Punkt der Beobachtung
      * @return
-     * alle Punkte, die rechts neben dem Startpunkt liegen und die gleiche x-Koordinate haben
+     * alle Punkte, die rechts neben dem Startpunkt liegen und die gleiche y-Koordinate haben
      */
     private HeightedPoint[] pointsOnLine(ModifiableDem input, HeightedPoint viewpoint) {
         int xCoor = viewpoint.getXCoor();
