@@ -34,7 +34,7 @@ public class SweepEvent implements Comparable<SweepEvent> {
      * @return Winkel zwischen Startpunkt und Eckpunkt eines Pixels
      */
     public double calcAngle() {
-        double dy = view.getYCoor() - point.getYCoor();
+        double dy = point.getYCoor() - view.getYCoor();
         double dx = point.getXCoor() - view.getXCoor();
 
         // Pixel hat selbe y-Koordinate wie Startpunkt, liegt rechts davon und Event hat Typ IN
