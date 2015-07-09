@@ -68,16 +68,20 @@ public class Dem implements Iterable<HeightedPoint> {
             });
             
             if (scanner.hasNext()) {
-                throw new InputMismatchException();
+                throw new InputMismatchException("Input is too long!");
             }
             
         } catch (FileNotFoundException e) {
             System.err.println("The file could not be found:");
             System.err.println(e.getMessage());
+            System.exit(1);
         } catch (InputMismatchException e) {
             System.err.println("The input file is malformed (input mismatch)!");
+            System.err.println(e.getMessage());
+            System.exit(1);
         } catch (NoSuchElementException e) {
             System.err.println("The input file is malformed (no such element)!");
+            System.exit(1);
         }
     }
     
