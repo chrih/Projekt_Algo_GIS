@@ -23,11 +23,14 @@ public class Test {
         Dem viewshed_sweep;
         Dem viewshed_brute;
         if (args.length == 3) {
+            System.out.println("Calculating Viewshed for the Point (" + x + "," + y + ")");
             Point p = new Point(x, y);
             viewshed_sweep = v.calculateViewshed(d, p);
             viewshed_brute = b.calculateViewshed(d, p);
         } else {
-            HeightedPoint p = new HeightedPoint(x, y, Double.parseDouble(args[3]));
+            double h = Double.parseDouble(args[3]);
+            System.out.println("Calculating Viewshed for the Point (" + x + "," + y + ") at height " + h);
+            HeightedPoint p = new HeightedPoint(x, y, h);
             viewshed_sweep = v.calculateViewshed(d, p);
             viewshed_brute = b.calculateViewshed(d, p);
         }
