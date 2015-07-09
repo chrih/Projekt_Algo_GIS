@@ -29,7 +29,7 @@ public class vanKreveld implements ViewshedAnalysis {
         statStruc = new StatusStructure(origin);
         for (HeightedPoint p : d) {
             // fuellen der eventlist mit allen punkten
-            if (!p.equals(origin)) {
+            if (p.getXCoor() != origin.getXCoor() || p.getYCoor() != origin.getYCoor()) { // !p.equals(origin) funktioniert nicht, falls origin.height != p.height für den Originalpunkt
                 eventList.offer(new SweepEvent(p, SweepEvent.EventType.IN, origin));
                 eventList.offer(new SweepEvent(p, SweepEvent.EventType.OUT, origin));
                 eventList.offer(new SweepEvent(p, SweepEvent.EventType.CENTER, origin));
