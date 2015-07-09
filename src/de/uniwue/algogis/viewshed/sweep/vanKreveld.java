@@ -37,7 +37,7 @@ public class vanKreveld implements ViewshedAnalysis {
         }
 
         // Liste mit Punkten rechts des Startpunktes in den Baum einfuegen
-        for (HeightedPoint hp : pointsOnLine(input, origin)) {
+        for (HeightedPoint hp : pointsOnLine(d, origin)) {
             statStruc.insert(hp);
         }
 
@@ -74,18 +74,18 @@ public class vanKreveld implements ViewshedAnalysis {
 
     /**
      *
-     * @param input Eingabe-DEM
+     * @param d Eingabe-DEM
      * @param viewpoint Startpunkt, Punkt der Beobachtung
      * @return
      * alle Punkte, die rechts neben dem Startpunkt liegen und die gleiche y-Koordinate haben
      */
-    private HeightedPoint[] pointsOnLine(ModifiableDem input, HeightedPoint viewpoint) {
+    private HeightedPoint[] pointsOnLine(Dem d, HeightedPoint viewpoint) {
         int xCoor = viewpoint.getXCoor();
-        int maxXCoor = input.getNcols();
-        HeightedPoint[] onLine = new HeightedPoint[maxXCoor - xCoor - 1];
+        int maxXCoor = d.getNcols() - 1;
+        HeightedPoint[] onLine = new HeightedPoint[maxXCoor - xCoor];
         int j = 0;
         for (int i = (xCoor + 1); i < maxXCoor; i++) {
-            onLine[j] = input.getHeightedPoint(i, viewpoint.getYCoor());
+            onLine[j] = d.getHeightedPoint(i, viewpoint.getYCoor());
             j++;
         }
         return onLine;
