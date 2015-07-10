@@ -84,7 +84,7 @@ public class vanKreveld implements ViewshedAnalysis {
         int maxXCoor = d.getNcols() - 1;
         HeightedPoint[] onLine = new HeightedPoint[maxXCoor - xCoor];
         int j = 0;
-        for (int i = (xCoor + 1); i < maxXCoor; i++) {
+        for (int i = (xCoor + 1); i <= maxXCoor; i++) {
             onLine[j] = d.getHeightedPoint(i, viewpoint.getYCoor());
             j++;
         }
