@@ -127,16 +127,31 @@ public class StatusStructure {
         return maxSlope < x.slope; // TODO: use <= instead?!
     }
 
+    /**
+     * Searches the status structure for a point p
+     * and returns the corresponding StatusEntry.
+     * @param p HeightedPoint to be searched
+     * @return StatusEntry
+     */
     StatusEntry getEntry(HeightedPoint p) {
         double key = reference.calcDistance(p);
         StatusEntry t = root;
         while (t != null) {
             if (key < t.key) {
                 t = t.left;
-            } else if (key > t.key || p.getXCoor() != t.value.getXCoor() || p.getYCoor() != t.value.getYCoor() ) {
+            } else if (key > t.key) {
                 t = t.right;
+            } else if (p.getXCoor() == t.value.getXCoor() && p.getYCoor() == t.value.getYCoor()) {
+                return t; // found it!
             } else {
-                return t;
+                //search to the left and to the right
+                if (t.left != null && p.getXCoor() == t.left.value.getXCoor() && p.getYCoor() == t.left.value.getYCoor()) {
+                    return t.left;
+                }
+                if (t.right != null && p.getXCoor() == t.right.value.getXCoor() && p.getYCoor() == t.right.value.getYCoor()) {
+                    return t.right;
+                }
+                return null; // asumming the searched point can only be in one of the chilren
             }
         }
         return null;
