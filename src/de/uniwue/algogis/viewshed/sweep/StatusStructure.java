@@ -63,9 +63,6 @@ public class StatusStructure {
         p.maxSlope = Math.max(maxSlopeOf(p.left), maxSlopeOf(p.right)); // dummy value
         StatusEntry x = p.parent;
         while (x != null) {
-            if (p.slope < x.maxSlope) {
-                break; // nothing more to update, as p was not the maximal node for this subtree
-            }
             x.maxSlope = Math.max( x.slope, Math.max(maxSlopeOf(x.left), maxSlopeOf(x.right)) );
             x = x.parent;
         }
