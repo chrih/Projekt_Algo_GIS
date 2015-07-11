@@ -123,4 +123,9 @@ public class SweepEvent implements Comparable<SweepEvent> {
         }
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return point + " " +  type.name() + "\t" + calcAngle();
+    }
 }

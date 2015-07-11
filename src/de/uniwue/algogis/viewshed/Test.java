@@ -34,8 +34,15 @@ public class Test {
             viewshed_sweep = v.calculateViewshed(d, p);
             viewshed_brute = b.calculateViewshed(d, p);
         }
-        ExportDems.toPng(viewshed_sweep, path + ".sweep.png", 20);
-        ExportDems.toPng(viewshed_brute, path + ".brute.png", 20);
+        ModifiableDem diff = new ModifiableDem(viewshed_sweep.getNcols(), viewshed_sweep.getNrows(), 0, 0, 1, -9999);
+        for (int x1 = 0; x1 < viewshed_sweep.getNcols(); x1++) {
+            for (int y1 = 0; y1 < viewshed_sweep.getNrows(); y1++) {
+                diff.setHeight(x1, y1, (viewshed_sweep.getHeight(x1, y1) == viewshed_brute.getHeight(x1, y1) ? 0 : 1)); 
+            }
+        }
+        ExportDems.toPng(viewshed_sweep, path + ".sweep.png", 1);
+        ExportDems.toPng(viewshed_brute, path + ".brute.png", 1);
+        ExportDems.toPng(diff          , path + "._diff.png", 1);
         System.out.println("Testdaten ausgegeben.");
     }
 }

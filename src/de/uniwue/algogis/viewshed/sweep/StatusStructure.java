@@ -38,6 +38,7 @@ public class StatusStructure {
         }
         fixAfterInsertion(z);
         size++;
+        //assert checkStatusStructure(root);
     }
 
     public void delete(HeightedPoint pt) {
@@ -101,6 +102,7 @@ public class StatusStructure {
                 p.parent = null;
             }
         }
+        //assert checkStatusStructure(root);
     }
 
     public boolean isVisible(HeightedPoint pt) {
@@ -360,5 +362,12 @@ public class StatusStructure {
         }
 
         setColor(x, BLACK);
+    }
+    private static boolean checkStatusStructure(StatusEntry x) {
+        if (x == null) return true;
+        if (x.maxSlope != Math.max(x.slope, Math.max(maxSlopeOf(x.left), maxSlopeOf(x.right)))) {
+            return false;
+        }
+        return checkStatusStructure(x.left) && checkStatusStructure(x.right);
     }
 }
