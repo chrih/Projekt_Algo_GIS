@@ -1,5 +1,5 @@
 [General]
-def_graphic_ext=eps
+def_graphic_ext=
 img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 lastDocument=
@@ -12,36 +12,3 @@ src_extensions=.tex .ltx .latex .dtx .ins
 [Tools]
 MakeIndex=
 QuickBuild=
-
-[document-settings,item:viewshed]
-Bookmarks=
-Encoding=UTF-8
-Highlighting=LaTeX
-Indentation Mode=normal
-Mode=LaTeX
-
-[item:viewshed]
-archive=true
-column=0
-encoding=UTF-8
-highlight=LaTeX
-line=0
-mode=LaTeX
-open=false
-order=-1
-
-[item:viewshed_abschlussbericht.kilepr]
-archive=true
-column=6881383
-encoding=
-highlight=
-line=0
-mode=
-open=false
-order=-1
-
-[view-settings,view=0,item:viewshed]
-CursorColumn=0
-CursorLine=0
-JumpList=
-ViMarks=
