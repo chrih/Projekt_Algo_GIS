@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author chrissy
+ * @author Christina Hempfling, Moritz Beck, Jona Kalkus, Bernhard Häussner
  */
 public class vanKreveldNew implements ViewshedAnalysis {
 
@@ -22,6 +22,7 @@ public class vanKreveldNew implements ViewshedAnalysis {
     private ModifiableDem result;
     private StatusStructure statStruc;
     private boolean[][] isInEventlist;
+    // maximale x- und <-Koordinate
     private int maxX;
     private int maxY;
 
@@ -30,17 +31,24 @@ public class vanKreveldNew implements ViewshedAnalysis {
 
         maxX = d.getNcols() - 1;
         maxY = d.getNrows() - 1;
+        // Ausgabe-DEM
         result = new ModifiableDem(d);
+        // maximal noetige Kapazitaet der event list berechnen
         int listCapacity = calcMaxListCapacity(d, origin);
         eventList = new PriorityQueue<SweepEvent>(listCapacity);
+        // Baumstruktur mit origin als Wurzelelement
         statStruc = new StatusStructure(origin);
 
+        // zweidimensionales Array, welches fuer jeden Pixel speichert, ob er schon einmal in die event list eingefuegt wurde 
+        // false: noch nicht eingefuegt
         isInEventlist = new boolean[maxX + 1][maxY + 1];
 
+        // Standpunkt origin ist immer sichtbar und muss auch nicht in die event list eingefuegt werden => auf true setzen
         result.setHeight(origin, 1);
         isInEventlist[origin.getXCoor()][origin.getYCoor()] = true;
 
-        // Liste mit Punkten rechts des Startpunktes in den Baum einfuegen
+        // sweep line beginnt waagerecht rechts des Standpunkts
+        // Liste mit Punkten rechts des Startpunktes in den Baum einfuegen und in event list einfuegen
         for (HeightedPoint hp : pointsOnLine(d, origin)) {
             int x = hp.getXCoor();
             int y = hp.getYCoor();
@@ -51,8 +59,11 @@ public class vanKreveldNew implements ViewshedAnalysis {
             isInEventlist[x][y] = true;
         }
 
+        // event list durchgehen
         while (!eventList.isEmpty()) {
+            // erstes Element aus der Liste holen
             SweepEvent s = eventList.poll();
+            // Punkt dazu berechnen
             HeightedPoint p = s.getPoint();
             switch (s.getType()) {
                 // wenn IN: Punkt in Baum einfuegen
@@ -75,11 +86,38 @@ public class vanKreveldNew implements ViewshedAnalysis {
                 default:
                     break;
             }
+            // die event list updaten: Nachbarn des Pixels in die event list einfuegen
             updateEventlist(d, origin, p);
         }
         return result;
     }
 
+    /**
+     *
+     * @param d DEM
+     * @param origin Standpunkt
+     * @param hp aktueller Pixel
+     * 
+     * es gibt neun Moeglichkeiten, an denen der Pixel im grid liegen kann und 
+     * je nach Lage hat der Pixel unterschiedlich viele Nachbarn
+     * 
+     * 1+++2+++3
+     * +++++++++
+     * 4+++5+++6
+     * +++++++++
+     * 7++8++++9 
+     * 
+     * 1 = linke obere Ecke
+     * 2 = oberer Rand
+     * 3 = rechte obere Ecke
+     * 4 = linker Rand
+     * 5 = irgendwo mittendrin
+     * 6 = rechter Rand
+     * 7 = linke untere Ecke 
+     * 8 = unterer Rand 
+     * 9 = rechte untere Ecke
+     * 
+     */
     private void updateEventlist(Dem d, HeightedPoint origin, HeightedPoint hp) {
         int x = hp.getXCoor();
         int y = hp.getYCoor();
@@ -87,37 +125,57 @@ public class vanKreveldNew implements ViewshedAnalysis {
         if (x == maxX) {
             // rechte untere Ecke
             if (y == maxY) {
-                getNeighbours(d, hp, origin, 9);
+                insertNeighboursInEventlist(d, hp, origin, 9);
                 // rechte obere Ecke
             } else if (y == 0) {
-                getNeighbours(d, hp, origin, 3);
+                insertNeighboursInEventlist(d, hp, origin, 3);
             } else {
-                getNeighbours(d, hp, origin, 6);
+                insertNeighboursInEventlist(d, hp, origin, 6);
             }
             // linke Seite
         } else if (x == 0) {
             // linke untere Ecke
             if (y == maxY) {
-                getNeighbours(d, hp, origin, 7);
+                insertNeighboursInEventlist(d, hp, origin, 7);
                 // linke obere Ecke
             } else if (y == 0) {
-                getNeighbours(d, hp, origin, 1);
+                insertNeighboursInEventlist(d, hp, origin, 1);
             } else {
-                getNeighbours(d, hp, origin, 4);
+                insertNeighboursInEventlist(d, hp, origin, 4);
             }
             // oberer Rand
         } else if (y == 0) {
-            getNeighbours(d, hp, origin, 2);
+            insertNeighboursInEventlist(d, hp, origin, 2);
         } else if (y == maxY) {
-            getNeighbours(d, hp, origin, 8);
+            insertNeighboursInEventlist(d, hp, origin, 8);
         } else {
-            getNeighbours(d, hp, origin, 5);
+            insertNeighboursInEventlist(d, hp, origin, 5);
         }
     }
 
-    private void getNeighbours(Dem d, HeightedPoint reference, HeightedPoint origin, int i) {
+    /**
+     * 
+     * @param d DEM
+     * @param reference aktueller Pixel
+     * @param origin Standpunkt
+     * @param i Typ des Pixel, bestimmt die Lage im grid (siehe Kommentar zu Funktion updateEventlist)
+     * 
+     * findet alle Nachbarn eines Pixels, die noch nicht in der event list sind und fuegt sie ein
+     * 
+     * Bezeichner der Nachbarn:
+     * +++++++++++++++++++++++++++++++
+     * | leftup   | up   | rightup   |
+     * +++++++++++++++++++++++++++++++
+     * | left     |      | right     |
+     * +++++++++++++++++++++++++++++++
+     * | leftdown | down | rightdown |
+     * +++++++++++++++++++++++++++++++
+     * 
+     */
+    private void insertNeighboursInEventlist(Dem d, HeightedPoint reference, HeightedPoint origin, int i) {
         int x = reference.getXCoor();
         int y = reference.getYCoor();
+        // alle moeglichen Nachbarn 
         HeightedPoint leftup, left, leftdown, down, rightdown, right, rightup, up;
 
         switch (i) {
