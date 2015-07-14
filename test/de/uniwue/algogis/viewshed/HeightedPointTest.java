@@ -37,4 +37,19 @@ public class HeightedPointTest {
         assertNotEquals(p6, p1);
     }
 
+    @Test
+    public void testEqualsPosition() {
+        HeightedPoint p1 = new HeightedPoint(1, 2, 10.5);
+        HeightedPoint p2 = new HeightedPoint(1, 2, 10.5);
+        HeightedPoint p3 = new HeightedPoint(1, 0, 10.5);
+        HeightedPoint p4 = new HeightedPoint(0, 2, 10.5);
+        HeightedPoint p5 = new HeightedPoint(1, 2, 00.0);
+        assertTrue(p1.equalsPosition(p1));
+        assertTrue(p1.equalsPosition(p2));
+        assertTrue(p1.equalsPosition(p5));
+        assertTrue(p5.equalsPosition(p1));
+        assertFalse(p1.equalsPosition(p3));
+        assertFalse(p1.equalsPosition(p4));
+    }
+
 }

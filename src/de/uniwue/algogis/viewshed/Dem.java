@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -203,4 +205,9 @@ public class Dem implements Iterable<HeightedPoint> {
         
     }
 
+    @Override
+    public Spliterator<HeightedPoint> spliterator() {
+        return Spliterators.spliterator(iterator(), getNcols()*getNrows(), 0);
+    }
+    
 }
