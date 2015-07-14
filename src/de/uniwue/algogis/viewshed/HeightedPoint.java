@@ -23,6 +23,15 @@ public class HeightedPoint extends Point {
     }
     
     /**
+     * Compare this point to another point by position only, ignoring differences in height
+     * @param p Other point
+     * @return If <tt>this.x = p.x && this.y = p.y</tt>
+     */
+    public boolean equalsPosition(Point p) {
+    	return p != null && p.getXCoor() == getXCoor() && p.getYCoor() == getYCoor(); 
+    }
+    
+    /**
      * Calculate the slope to another point in 3D space.
      * @param to Other point
      * @return A value <tt>s</tt> such that <tt> to.height - this.height = s * distance</tt>.

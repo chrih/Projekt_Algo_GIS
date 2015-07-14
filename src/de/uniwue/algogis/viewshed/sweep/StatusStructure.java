@@ -110,7 +110,7 @@ public class StatusStructure {
         StatusEntry p = null;
         StatusEntry x = root;
         double maxSlope = Double.NEGATIVE_INFINITY;
-        while (x != null && (x.value.getXCoor() != pt.getXCoor() || x.value.getYCoor() != pt.getYCoor() )) {
+        while (x != null && ! pt.equalsPosition(x.value)) {
             p = x;
             if (key < x.key) {
                 x = x.left;
@@ -140,17 +140,17 @@ public class StatusStructure {
                 t = t.left;
             } else if (key > t.key) {
                 t = t.right;
-            } else if (p.getXCoor() == t.value.getXCoor() && p.getYCoor() == t.value.getYCoor()) {
+            } else if (p.equalsPosition(t.value)) {
                 return t; // found it!
             } else {
                 //search to the left and to the right
-                if (t.left != null && p.getXCoor() == t.left.value.getXCoor() && p.getYCoor() == t.left.value.getYCoor()) {
+                if (t.left != null && p.equalsPosition(t.left.value)) {
                     return t.left;
                 }
-                if (t.right != null && p.getXCoor() == t.right.value.getXCoor() && p.getYCoor() == t.right.value.getYCoor()) {
+                if (t.right != null && p.equalsPosition(t.right.value)) {
                     return t.right;
                 }
-                return null; // asumming the searched point can only be in one of the chilren
+                return null; // assuming the searched point can only be in one of the children
             }
         }
         return null;
