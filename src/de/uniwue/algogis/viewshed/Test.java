@@ -52,7 +52,7 @@ public class Test {
         long start = System.nanoTime();
         R result = dut.get();
         long end = System.nanoTime();
-        System.out.println(String.format("%s %,15d ms", name, end - start));
+        System.out.println(String.format("%s %,15d ns", name, end - start));
         return result;
     }
 }
