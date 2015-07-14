@@ -1,5 +1,7 @@
 package de.uniwue.algogis.viewshed;
 
+import java.util.function.Supplier;
+
 import de.uniwue.algogis.viewshed.sweep.vanKreveld;
 import de.uniwue.algogis.viewshed.bruteforce.BruteForceViewshedAnalysis;
 
@@ -25,14 +27,14 @@ public class Test {
         if (args.length == 3) {
             System.out.println("Calculating Viewshed for the Point (" + x + "," + y + ")");
             Point p = new Point(x, y);
-            viewshed_sweep = v.calculateViewshed(d, p);
-            viewshed_brute = b.calculateViewshed(d, p);
+            viewshed_sweep = benchmark("sweep", () -> v.calculateViewshed(d, p));
+            viewshed_brute = benchmark("brute", () -> b.calculateViewshed(d, p));
         } else {
             double h = Double.parseDouble(args[3]);
             System.out.println("Calculating Viewshed for the Point (" + x + "," + y + ") at height " + h);
             HeightedPoint p = new HeightedPoint(x, y, h);
-            viewshed_sweep = v.calculateViewshed(d, p);
-            viewshed_brute = b.calculateViewshed(d, p);
+            viewshed_sweep = benchmark("sweep", () -> v.calculateViewshed(d, p));
+            viewshed_brute = benchmark("brute", () -> b.calculateViewshed(d, p));
         }
         ModifiableDem diff = new ModifiableDem(viewshed_sweep.getNcols(), viewshed_sweep.getNrows(), 0, 0, 1, -9999);
         for (int x1 = 0; x1 < viewshed_sweep.getNcols(); x1++) {
@@ -44,5 +46,13 @@ public class Test {
         ExportDems.toPng(viewshed_brute, path + ".brute.png", 1);
         ExportDems.toPng(diff          , path + "._diff.png", 1);
         System.out.println("Testdaten ausgegeben.");
+    }
+
+    private static <R> R benchmark(String name, Supplier<R> dut) {
+        long start = System.nanoTime();
+        R result = dut.get();
+        long end = System.nanoTime();
+        System.out.println(String.format("%s %,15d ms", name, end - start));
+        return result;
     }
 }
