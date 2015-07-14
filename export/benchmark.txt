@@ -1,5 +1,5 @@
 Punkt jeweils Mittig, Höhe 540
-Zeit in ms
+Zeit in ns
 
 Datei			Sweep			Brute			Dimension	Pixelanzahl	Quotient
 dgm_1.asc		303.737.029.760	151.234.401.966	1000x2000	2.000.000	2.00	
