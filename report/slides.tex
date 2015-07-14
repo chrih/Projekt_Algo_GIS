@@ -60,79 +60,81 @@ Benedikt Budig, M.Sc.}
 \section{Einleitung}
 
 \begin{frame}
-  \frametitle{Was ist Viewshed Analysis?}
-  \begin{itemize}[<+->]
-    \item Eingabe: Digitales Höhenmodell (DEM),
-    \item Standpunkt und Höhe im DEM
-    \item Ausgabe: Sichtbarer Bereich vom Standpunkt aus
-    \item Anwendung: Aufstellen von Sendemasten, finden versteckter oder landschaftlich attraktiver Routen
-  \end{itemize}
+  \frametitle{Ein Beispiel für Viewshed Analysis}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics<1>[height=5cm]{berg_viewpoint}\includegraphics<2>[height=5cm]{berg_viewshed}}
+    \caption{Ein Digitales Höhenmodell (DEM) \only<2>{mit Viewshed}}
+    \label{fig:example}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Ein Beispiel}
-  \begin{figure}[h]
-    \centering
-    \fbox{\includegraphics[height=5cm]{example}}
-    \caption{Ein DEM (links) und zwei Viewsheds}
-    \label{fig:example}
-  \end{figure}
+  \frametitle{Was ist Viewshed Analysis?}
+  \begin{itemize}[<+->]
+    \item Eingabe:
+    \begin{itemize}
+      \item Digitales Höhenmodell (DEM)
+      \item Standpunkt im DEM
+      \item Höhe im DEM
+    \end{itemize}
+    \item Ausgabe: Sichtbarer Bereich vom Standpunkt aus
+    \item Anwendungen: 
+    \begin{itemize}
+      \item Aufstellen von Sendemasten
+      \item Finden versteckter Routen
+      \item Finden landschaftlich attraktiver Routen
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \section{Algorithmen}
 
 \begin{frame}
-  \frametitle{Der Brute-Force-Algorithmus}
-  \begin{itemize}[<+->]
-    \item Für jeden Punkt des DEM
-    \item Finde alle Punkte zwischen diesem und dem Standpunkt
-    \item Prüfe für diese Punkte, ob sie größere Steigung haben
-    \item Hat keiner größere Steigung, ist der Punkt sichtbar, sonst nicht
-    \item Laufzeit $O(n^3)$ ($n$ Breite des DEM, gewöhnlich rund 1k)
+  \frametitle{Der naive Algorithmus}
+  \begin{itemize}
+    \item Für jeden Punkt des DEM:
+    \begin{itemize}
+      \item Finde alle Punkte zwischen diesem und dem Standpunkt
+      \item Prüfe für diese Punkte, ob sie größere Steigung haben
+      \item Hat keiner größere Steigung, ist der Punkt sichtbar
+    \end{itemize}
+    \item<2-> Laufzeit $O(n^3)$ ($n :=$ Maximum aus Breite u. Höhe des DEM)
+    \item<3-> Laufzeit unseres Java-Programms ca. 10 s auf 500x1000 Pixeln
+    \item<4-> Lässt sich sehr leicht implementieren und parallelisieren
   \end{itemize}
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Verbesserung: Sweepline (van Krefeld~\cite{van1996variations})}
-  \begin{itemize}[<+->]
-    \item 
-    \item 
-    \item 
-    \item 
+  \begin{itemize}
+    \item Radiale Sweepline (wie auf einem Radarschirm)
+    \item Events bei Beginn, Mitte und Ende eines Pixels, nach Winkel sortiert
+    \item Baumstruktur speichert Punkte aktuell auf Sweepline, erlaubt schnelles Sichtbarkeits-Prüfen
+    \item<2-> Laufzeit $O(n^2 \log{n})$ ($n$ Breite des DEM)
   \end{itemize}
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Verbesserungsidee: Quad Trees}
-  \begin{itemize}[<+->]
-    \item 
-    \item 
-    \item 
-    \item 
-  \end{itemize}
+  \frametitle{Verbesserungsidee: Auflösungsvariation, Quad Trees}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics[height=5cm]{dgm_1}\includegraphics[height=5cm]{dgm_2}\includegraphics[height=5cm]{dgm_10}\includegraphics[height=5cm]{dgm_25}}
+    \caption{1, 2, 10 und 25 Meter Auflösung. \newline Laufzeit: 151, 17, 0.16, 0.03 Sekunden}
+    \label{fig:example}
+  \end{figure}
 \end{frame}
 
 \section{Probleme}
 
 \begin{frame}
-  \frametitle{Probleme: Linie berührt Pixel}
-  \begin{itemize}[<+->]
-    \item 
-    \item 
-    \item 
-    \item 
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
   \frametitle{Probleme: Interpolation des DEM~\cite{fisher1993algorithm}}
   \begin{itemize}[<+->]
-    \item 
-    \item 
-    \item 
-    \item 
+    \item DEM als Rasterdaten lässt undefinierte Zwischenräume
+    \item Interpolation naher Pixel kann große Auswirkungen auf ferne Pixel haben
+    \item Pixel könnten z.B. mit einer Wahrscheinlichkeit gesehen werden
   \end{itemize}
 \end{frame}
 
