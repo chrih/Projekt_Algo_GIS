@@ -64,9 +64,30 @@ Benedikt Budig, M.Sc.}
   \begin{figure}[h]
     \centering
     \fbox{\includegraphics<1>[height=5cm]{berg_viewpoint}\includegraphics<2>[height=5cm]{berg_viewshed}}
-    \caption{Ein Digitales Höhenmodell (DEM) \only<2>{mit Viewshed}}
+    \caption{\only<1>{Berge nahe Salzburg: }Ein Digitales Höhenmodell (DEM) \only<2>{mit Viewshed}}
     \label{fig:example}
   \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Ein Beispiel für Viewshed Analysis}
+Quelltext eines DEM:
+\begin{verbatim}
+ncols         501
+nrows         1001
+xllcorner     4490660
+yllcorner     5320200
+cellsize      2
+558.21 558.13 558.08 557.99 557.93 557.81 557.7  ....
+558.1 558.06 557.95 557.89 557.83 557.73 557.6 ....
+557.91 557.85 557.78 557.75 557.67 557.58 557.47 ...
+557.81 557.78 557.7 557.66 557.56 557.48 557.4  ...
+557.64 557.6 557.54 557.46 557.44 557.36 557.23  ...
+557.59 557.51 557.46 557.38 557.37 557.28 557.15 ...
+557.49 557.42 557.38 557.31 557.26 557.16 557.11  ...
+...
+\end{verbatim}
+
 \end{frame}
 
 \begin{frame}
@@ -74,9 +95,9 @@ Benedikt Budig, M.Sc.}
   \begin{itemize}[<+->]
     \item Eingabe:
     \begin{itemize}
-      \item Digitales Höhenmodell (DEM)
-      \item Standpunkt im DEM
-      \item Höhe im DEM
+      \item Digitales Höhenmodell (DEM), Pixel mit Höhenwerten
+      \item Koordinaten des Standpunkt im DEM
+      \item Höhe des Standpunkt im DEM
     \end{itemize}
     \item Ausgabe: Sichtbarer Bereich vom Standpunkt aus
     \item Anwendungen: 
@@ -98,11 +119,11 @@ Benedikt Budig, M.Sc.}
     \label{fig:naive}
   \end{figure}
   \begin{itemize}
-    \item Für jeden Punkt des DEM:
+    \item Für jeden Pixel des DEM:
     \begin{itemize}
-      \item Finde alle Punkte zwischen diesem und dem Standpunkt
-      \item Prüfe für diese Punkte, ob sie größere Steigung haben
-      \item Hat keiner größere Steigung, ist der Punkt sichtbar
+      \item Finde alle Pixel zwischen diesem und dem Standpunkt
+      \item Prüfe für diese Pixel, ob sie größere Steigung haben
+      \item Hat keiner größere Steigung, ist der Pixel sichtbar
     \end{itemize}
     \item<2-> Laufzeit $O(n^3)$ ($n :=$ Maximum aus Breite u. Höhe des DEM)
     \item<3-> Laufzeit unseres Java-Programms ca. 10 s auf 500x1000 Pixeln
@@ -121,7 +142,7 @@ Benedikt Budig, M.Sc.}
   \begin{itemize}
     \item Radiale Sweepline (wie auf einem Radarschirm)
     \item Events bei Beginn, Mitte und Ende eines Pixels, nach Winkel sortiert
-    \item Baumstruktur speichert Punkte aktuell auf Sweepline, erlaubt schnelles Sichtbarkeits-Prüfen
+    \item Baumstruktur speichert Pixel aktuell auf Sweepline, erlaubt schnelles Sichtbarkeits-Prüfen
     \item<2-> Laufzeit $O(n^2 \log{n})$ ($n$ Breite des DEM)
   \end{itemize}
 \end{frame}
