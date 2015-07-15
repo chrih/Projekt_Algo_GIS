@@ -1,0 +1,196 @@
+\documentclass{beamer}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage[german,linesnumbered,algoruled,longend,vlined]{algorithm2e}
+\DontPrintSemicolon
+\SetArgSty{}
+\SetKw{KwOr}{or}
+\SetKw{KwAnd}{and}
+\SetKw{KwNot}{not}
+\setlength{\algomargin}{3ex}
+
+\usepackage[fixlanguage]{babelbib}
+\setbibliographyfont{title}{}
+\setbibliographyfont{jtitle}{}
+\setbibliographyfont{btitle}{\emph}
+\setbibliographyfont{stitle}{\emph}
+\setbibliographyfont{journal}{\emph}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{textcomp}
+\usepackage{epstopdf}
+
+\graphicspath{{graphics/}}
+
+% Eigene Commands:
+\newcommand{\Epsilon}{\mathcal{E}}
+\newcommand{\N}{\mathbb{N}}
+
+\hyphenation{Teil-as-pekt Teil-as-pek-te}
+
+\begin{document}
+
+
+
+\subject{Algorithmen für geographische Informationssysteme}
+\title{Projekt Viewshed Analysis}
+\author{Christina Hempfling, Jona Kalkus, Moritz Beck, Bernhard Häussner}
+\date{Projekt-Präsentation am 15. Juli 2015}
+\institute{Julius-Maximilians-Universität Würzburg\\
+Institut für Informatik\\
+Lehrstuhl für Informatik I\\
+Effiziente Algorithmen und wissensbasierte Systeme\\[\baselineskip]
+Betreuer:\\ 
+Prof.\ Dr.\ Alexander Wolff\\
+Dr.\ Thomas van Dijk\\
+Benedikt Budig, M.Sc.}
+\maketitle
+
+
+\section{Einleitung}
+
+\begin{frame}
+  \frametitle{Ein Beispiel für Viewshed Analysis}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics<1>[height=5cm]{berg_viewpoint}\includegraphics<2>[height=5cm]{berg_viewshed}}
+    \caption{\only<1>{Berge nahe Salzburg: }Ein Digitales Höhenmodell (DEM) \only<2>{mit Viewshed}}
+    \label{fig:example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Ein Beispiel für Viewshed Analysis}
+Quelltext eines DEM:
+\begin{verbatim}
+ncols         501
+nrows         1001
+xllcorner     4490660
+yllcorner     5320200
+cellsize      2
+558.21 558.13 558.08 557.99 557.93 557.81 557.7  ....
+558.1 558.06 557.95 557.89 557.83 557.73 557.6 ....
+557.91 557.85 557.78 557.75 557.67 557.58 557.47 ...
+557.81 557.78 557.7 557.66 557.56 557.48 557.4  ...
+557.64 557.6 557.54 557.46 557.44 557.36 557.23  ...
+557.59 557.51 557.46 557.38 557.37 557.28 557.15 ...
+557.49 557.42 557.38 557.31 557.26 557.16 557.11  ...
+...
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Was ist Viewshed Analysis?}
+  \begin{itemize}[<+->]
+    \item Eingabe:
+    \begin{itemize}
+      \item Digitales Höhenmodell (DEM), Pixel mit Höhenwerten
+      \item Koordinaten des Standpunkt im DEM
+      \item Höhe des Standpunkt im DEM
+    \end{itemize}
+    \item Ausgabe: Sichtbarer Bereich vom Standpunkt aus
+    \item Anwendungen: 
+    \begin{itemize}
+      \item Aufstellen von Sendemasten
+      \item Finden versteckter Routen
+      \item Finden landschaftlich attraktiver Routen
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Algorithmen}
+
+\begin{frame}
+  \frametitle{Der naive Algorithmus}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{naive}
+    \label{fig:naive}
+  \end{figure}
+  \begin{itemize}
+    \item Für jeden Pixel des DEM:
+    \begin{itemize}
+      \item Finde alle Pixel zwischen diesem und dem Standpunkt
+      \item Prüfe für diese Pixel, ob sie größere Steigung haben
+      \item Hat keiner größere Steigung, ist der Pixel sichtbar
+    \end{itemize}
+    \item<2-> Laufzeit $O(n^3)$ ($n :=$ Maximum aus Breite u. Höhe des DEM)
+    \item<3-> Laufzeit unseres Java-Programms ca. 10 s auf 500x1000 Pixeln
+    \item<4-> Lässt sich sehr leicht implementieren und parallelisieren
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Verbesserung: Sweepline (van Krefeld~\cite{van1996variations})}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{Sweep.pdf}
+    \label{fig:sweepline}
+  \end{figure}
+  \begin{itemize}
+    \item Radiale Sweepline (wie auf einem Radarschirm)
+    \item Events bei Beginn, Mitte und Ende eines Pixels, nach Winkel sortiert
+    \item Baumstruktur speichert Pixel aktuell auf Sweepline, erlaubt schnelles Sichtbarkeits-Prüfen
+    \item<2-> Laufzeit $O(n^2 \log{n})$ ($n$ Breite des DEM)
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Verbesserungsidee: Auflösungsvariation, Quad Trees}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics[height=5cm]{dgm_1}\includegraphics[height=5cm]{dgm_2}\includegraphics[height=5cm]{dgm_10}\includegraphics[height=5cm]{dgm_25}}
+    \caption{1, 2, 10 und 25 Meter Auflösung. \newline Laufzeit: 151, 17, 0.16, 0.03 Sekunden}
+    \label{fig:resolutions}
+  \end{figure}
+\end{frame}
+
+\section{Probleme und Herausforderungen}
+
+\begin{frame}
+  \frametitle{Problem: Interpolation des DEM, siehe Fischer~\cite{fisher1993algorithm}}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{interpolation}
+    \label{fig:interpolation}
+  \end{figure}
+  \begin{itemize}[<+->]
+    \item DEM als Rasterdaten lässt undefinierte Zwischenräume
+    \item Interpolation naher Pixel kann große Auswirkungen auf ferne Pixel haben
+    \item Pixel könnten z.B. mit einer Wahrscheinlichkeit gesehen werden
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Problem: Artefakte an Winkelhalbierenden}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics[height=5cm]{bisectrix}}
+    \caption{Erkennbare Artefakte im oberen linken Bildbereich}
+    \label{fig:bisectrix}
+  \end{figure}
+\end{frame}
+
+\begin{frame}%[shrink=30]
+  \frametitle{Literatur}
+  \bibliographystyle{mybabalpha-fl}
+  \small\bibliography{mybib}
+\end{frame}
+
+
+
+
+\end{document}
