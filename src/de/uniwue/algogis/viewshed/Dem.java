@@ -20,6 +20,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * A Digital Elevation Model (DEM) is a raster of height values.
+ */
 public class Dem implements Iterable<HeightedPoint> {
     
     protected double[][] data;

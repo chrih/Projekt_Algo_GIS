@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.Dem;
@@ -13,6 +8,7 @@ import de.uniwue.algogis.viewshed.ViewshedAnalysis;
 import java.util.PriorityQueue;
 
 /**
+ * The radial sweep line algorithm as described by van Kreveld (1996)
  * @date 08.07.2015
  * @author Christina Hempfling, Jona Kalkus, Moritz Beck, Bernhard Haeussner
  */

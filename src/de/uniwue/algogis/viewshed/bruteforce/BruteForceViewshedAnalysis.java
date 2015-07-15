@@ -8,6 +8,9 @@ import de.uniwue.algogis.viewshed.HeightedPoint;
 import de.uniwue.algogis.viewshed.ModifiableDem;
 import de.uniwue.algogis.viewshed.ViewshedAnalysis;
 
+/**
+ * A very naive algorithm for caluclating the viewshed.
+ */
 public class BruteForceViewshedAnalysis implements ViewshedAnalysis {
     
     private boolean parallel;

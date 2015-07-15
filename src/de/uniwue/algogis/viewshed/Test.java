@@ -8,6 +8,9 @@ import de.uniwue.algogis.viewshed.sweep.VanKreveldList;
 import de.uniwue.algogis.viewshed.sweep.vanKreveldNew;
 import de.uniwue.algogis.viewshed.bruteforce.BruteForceViewshedAnalysis;
 
+/**
+ * Test and benchmark the various {@link ViewshedAnalysis} implementations.
+ */
 public class Test {
     public static void main(String args[]) {
         if (args.length < 1) {

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @date 08.07.2015
- * @author Christina Hempfling, Jona Kalkus, Moritz Beck, Bernhard Haeussner
+ * The same algorithm as {@link vanKreveld}, but using a {@link List} instead of
+ * a priority queue for the events.
  */
 public class VanKreveldList implements ViewshedAnalysis {
     // event list als Prioritaetswarteschlange

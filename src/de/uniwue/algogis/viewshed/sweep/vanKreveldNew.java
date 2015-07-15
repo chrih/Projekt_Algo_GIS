@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.Dem;
@@ -10,10 +5,14 @@ import de.uniwue.algogis.viewshed.HeightedPoint;
 import de.uniwue.algogis.viewshed.Point;
 import de.uniwue.algogis.viewshed.ModifiableDem;
 import de.uniwue.algogis.viewshed.ViewshedAnalysis;
+
+import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- *
+ * The same algorithm as {@link vanKreveld}, but only putting the neighbouring points
+ * into the priority queue.
+ * 
  * @author Christina Hempfling, Moritz Beck, Jona Kalkus, Bernhard Häussner
  */
 public class vanKreveldNew implements ViewshedAnalysis {

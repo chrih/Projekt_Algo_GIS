@@ -1,5 +1,8 @@
 package de.uniwue.algogis.viewshed;
 
+/**
+ * A {@link Dem} with setters for height values.
+ */
 public class ModifiableDem extends Dem {
 
     public ModifiableDem(int ncols, int nrows, int xllcorner, int yllcorner, int cellsize, double nodata) {

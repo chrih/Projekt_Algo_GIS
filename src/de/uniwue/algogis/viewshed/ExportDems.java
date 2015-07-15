@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Useful methods to export {@link Dem}s to various other formats.
+ */
 public class ExportDems {
     
     /**
