@@ -10,11 +10,15 @@ public class SweepEvent implements Comparable<SweepEvent> {
 
     private HeightedPoint point, view;
     private EventType type;
+    private double angle;
+    private double distance;
 
     public SweepEvent(HeightedPoint p, EventType t, HeightedPoint viewport) {
         this.point = p;
         this.type = t;
         this.view = viewport;
+        this.angle = calcAngle();
+        this.distance = calcDistance();
     }
 
     public HeightedPoint getPoint() {
@@ -25,6 +29,14 @@ public class SweepEvent implements Comparable<SweepEvent> {
         return this.type;
     }
 
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
     /**
      * berechnet den Winkel vom Startpunkt aus zu allen vier Ecken eines Pixels
      *
@@ -33,7 +45,7 @@ public class SweepEvent implements Comparable<SweepEvent> {
      *
      * @return Winkel zwischen Startpunkt und Eckpunkt eines Pixels
      */
-    public double calcAngle() {
+    protected double calcAngle() {
         double dy = point.getYCoor() - view.getYCoor();
         double dx = point.getXCoor() - view.getXCoor();
 
@@ -98,7 +110,7 @@ public class SweepEvent implements Comparable<SweepEvent> {
         }
     }
 
-    public double calcDistance() {
+    protected double calcDistance() {
         return view.calcDistance(point);
     }
 
@@ -110,13 +122,13 @@ public class SweepEvent implements Comparable<SweepEvent> {
      * Typ (OUT vor IN)
      */
     public int compareTo(SweepEvent b) {
-        if (calcAngle() < b.calcAngle()) {
+        if (angle < b.getAngle()) {
             return -1;
-        } else if (calcAngle() > b.calcAngle()) {
+        } else if (angle > b.getAngle()) {
             return 1;
-        } else if (calcDistance() < b.calcDistance()) {
+        } else if (distance < b.getDistance()) {
             return -1;
-        } else if (calcDistance() > b.calcDistance()) {
+        } else if (distance > b.getDistance()) {
             return 1;
         } else if (this.type == EventType.IN) {
             return -1;
@@ -126,6 +138,6 @@ public class SweepEvent implements Comparable<SweepEvent> {
 
     @Override
     public String toString() {
-        return point + " " +  type.name() + "\t" + calcAngle();
+        return point + " " +  type.name() + "\t" + angle;
     }
 }
