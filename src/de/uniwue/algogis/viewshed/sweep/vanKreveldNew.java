@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.Dem;
@@ -5,15 +10,12 @@ import de.uniwue.algogis.viewshed.HeightedPoint;
 import de.uniwue.algogis.viewshed.Point;
 import de.uniwue.algogis.viewshed.ModifiableDem;
 import de.uniwue.algogis.viewshed.ViewshedAnalysis;
-
-import java.util.List;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The same algorithm as {@link vanKreveld}, but only putting the neighbouring points
- * into the priority queue.
- * 
- * @author Christina Hempfling, Moritz Beck, Jona Kalkus, Bernhard Häussner
+ *
+ * @author Christina Hempfling, Moritz Beck, Jona Kalkus, Bernhard Haeussner
  */
 public class vanKreveldNew implements ViewshedAnalysis {
 
@@ -34,6 +36,7 @@ public class vanKreveldNew implements ViewshedAnalysis {
         result = new ModifiableDem(d);
         // maximal noetige Kapazitaet der event list berechnen
         int listCapacity = calcMaxListCapacity(d, origin);
+//        System.out.println("list cap: " + listCapacity);
         eventList = new PriorityQueue<SweepEvent>(listCapacity);
         // Baumstruktur mit origin als Wurzelelement
         statStruc = new StatusStructure(origin);
@@ -52,14 +55,15 @@ public class vanKreveldNew implements ViewshedAnalysis {
             int x = hp.getXCoor();
             int y = hp.getYCoor();
             statStruc.insert(hp);
-            eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-            eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-            eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
+            eventList.offer(new SweepEventCached(hp, SweepEvent.EventType.IN, origin));
+            eventList.offer(new SweepEventCached(hp, SweepEvent.EventType.CENTER, origin));
+            eventList.offer(new SweepEventCached(hp, SweepEvent.EventType.OUT, origin));
             isInEventlist[x][y] = true;
         }
 
         // event list durchgehen
         while (!eventList.isEmpty()) {
+//            System.out.println("size event list: " + eventList.size()); 
             // erstes Element aus der Liste holen
             SweepEvent s = eventList.poll();
             // Punkt dazu berechnen
@@ -100,11 +104,7 @@ public class vanKreveldNew implements ViewshedAnalysis {
      * es gibt neun Moeglichkeiten, an denen der Pixel im grid liegen kann und
      * je nach Lage hat der Pixel unterschiedlich viele Nachbarn
      *
-     * 1+++2+++3 
-     * +++++++++ 
-     * 4+++5+++6 
-     * +++++++++ 
-     * 7++8++++9
+     * 1+++2+++3 +++++++++ 4+++5+++6 +++++++++ 7++8++++9
      *
      * 1 = linke obere Ecke 2 = oberer Rand 3 = rechte obere Ecke 4 = linker
      * Rand 5 = irgendwo mittendrin 6 = rechter Rand 7 = linke untere Ecke 8 =
@@ -114,76 +114,76 @@ public class vanKreveldNew implements ViewshedAnalysis {
     private void updateEventlist(Dem d, HeightedPoint origin, HeightedPoint hp) {
         int x = hp.getXCoor();
         int y = hp.getYCoor();
-        HeightedPoint[] neighbours = new HeightedPoint[9];
+        LinkedList<HeightedPoint> neighbours = new LinkedList<HeightedPoint>();
         // rechte Seite
         if (x == maxX) {
             // rechte untere Ecke
             if (y == maxY) {
-                neighbours[0] = d.getHeightedPoint(x - 1, y);
-                neighbours[1] = d.getHeightedPoint(x, y - 1);
-                neighbours[2] = d.getHeightedPoint(x - 1, y - 1);
+                neighbours.add(d.getHeightedPoint(x - 1, y));
+                neighbours.add(d.getHeightedPoint(x, y - 1));
+                neighbours.add(d.getHeightedPoint(x - 1, y - 1));
             } // rechte obere Ecke
             else if (y == 0) {
-                neighbours[0] = d.getHeightedPoint(x - 1, y);
-                neighbours[1] = d.getHeightedPoint(x, y + 1);
-                neighbours[2] = d.getHeightedPoint(x - 1, y + 1);
+                neighbours.add(d.getHeightedPoint(x - 1, y));
+                neighbours.add(d.getHeightedPoint(x, y + 1));
+                neighbours.add(d.getHeightedPoint(x - 1, y + 1));
             } else {
-                neighbours[0] = d.getHeightedPoint(x, y - 1);
-                neighbours[1] = d.getHeightedPoint(x, y + 1);
-                neighbours[2] = d.getHeightedPoint(x - 1, y);
-                neighbours[3] = d.getHeightedPoint(x - 1, y - 1);
-                neighbours[4] = d.getHeightedPoint(x - 1, y + 1);
+                neighbours.add(d.getHeightedPoint(x, y - 1));
+                neighbours.add(d.getHeightedPoint(x, y + 1));
+                neighbours.add(d.getHeightedPoint(x - 1, y));
+                neighbours.add(d.getHeightedPoint(x - 1, y - 1));
+                neighbours.add(d.getHeightedPoint(x - 1, y + 1));
             }
         } // linke Seite
         else if (x == 0) {
             // linke untere Ecke
             if (y == maxY) {
-                neighbours[0] = d.getHeightedPoint(x, y - 1);
-                neighbours[1] = d.getHeightedPoint(x + 1, y);
-                neighbours[2] = d.getHeightedPoint(x + 1, y - 1);
+                neighbours.add(d.getHeightedPoint(x, y - 1));
+                neighbours.add(d.getHeightedPoint(x + 1, y));
+                neighbours.add(d.getHeightedPoint(x + 1, y - 1));
                 // linke obere Ecke
             } else if (y == 0) {
-                neighbours[0] = d.getHeightedPoint(x + 1, y);
-                neighbours[1] = d.getHeightedPoint(x + 1, y + 1);
-                neighbours[2] = d.getHeightedPoint(x, y + 1);
+                neighbours.add(d.getHeightedPoint(x + 1, y));
+                neighbours.add(d.getHeightedPoint(x + 1, y + 1));
+                neighbours.add(d.getHeightedPoint(x, y + 1));
             } else {
-                neighbours[0] = d.getHeightedPoint(x, y - 1);
-                neighbours[1] = d.getHeightedPoint(x + 1, y - 1);
-                neighbours[2] = d.getHeightedPoint(x + 1, y);
-                neighbours[3] = d.getHeightedPoint(x + 1, y + 1);
-                neighbours[4] = d.getHeightedPoint(x, y + 1);
+                neighbours.add(d.getHeightedPoint(x, y - 1));
+                neighbours.add(d.getHeightedPoint(x + 1, y - 1));
+                neighbours.add(d.getHeightedPoint(x + 1, y));
+                neighbours.add(d.getHeightedPoint(x + 1, y + 1));
+                neighbours.add(d.getHeightedPoint(x, y + 1));
             }
             // oberer Rand
         } else if (y == 0) {
-            neighbours[0] = d.getHeightedPoint(x - 1, y);
-            neighbours[1] = d.getHeightedPoint(x - 1, y + 1);
-            neighbours[2] = d.getHeightedPoint(x, y + 1);
-            neighbours[3] = d.getHeightedPoint(x + 1, y + 1);
-            neighbours[4] = d.getHeightedPoint(x + 1, y);
+            neighbours.add(d.getHeightedPoint(x - 1, y));
+            neighbours.add(d.getHeightedPoint(x - 1, y + 1));
+            neighbours.add(d.getHeightedPoint(x, y + 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y + 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y));
 
         } else if (y == maxY) {
-            neighbours[0] = d.getHeightedPoint(x - 1, y);
-            neighbours[1] = d.getHeightedPoint(x - 1, y - 1);
-            neighbours[2] = d.getHeightedPoint(x, y - 1);
-            neighbours[3] = d.getHeightedPoint(x + 1, y - 1);
-            neighbours[4] = d.getHeightedPoint(x + 1, y);
+            neighbours.add(d.getHeightedPoint(x - 1, y));
+            neighbours.add(d.getHeightedPoint(x - 1, y - 1));
+            neighbours.add(d.getHeightedPoint(x, y - 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y - 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y));
         } else {
-            neighbours[0] = d.getHeightedPoint(x - 1, y);
-            neighbours[1] = d.getHeightedPoint(x - 1, y - 1);
-            neighbours[2] = d.getHeightedPoint(x + 1, y);
-            neighbours[3] = d.getHeightedPoint(x, y + 1);
-            neighbours[4] = d.getHeightedPoint(x + 1, y + 1);
-            neighbours[5] = d.getHeightedPoint(x + 1, y - 1);
-            neighbours[6] = d.getHeightedPoint(x - 1, y + 1);
-            neighbours[7] = d.getHeightedPoint(x + 1, y);
-            neighbours[7] = d.getHeightedPoint(x, y - 1);
+            neighbours.add(d.getHeightedPoint(x - 1, y));
+            neighbours.add(d.getHeightedPoint(x - 1, y - 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y));
+            neighbours.add(d.getHeightedPoint(x, y + 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y + 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y - 1));
+            neighbours.add(d.getHeightedPoint(x - 1, y + 1));
+            neighbours.add(d.getHeightedPoint(x + 1, y));
+            neighbours.add(d.getHeightedPoint(x, y - 1));
         }
 
         for (HeightedPoint p : neighbours) {
             if (!isInEventlist[p.getXCoor()][p.getYCoor()]) {
-                eventList.offer(new SweepEvent(p, SweepEvent.EventType.IN, origin));
-                eventList.offer(new SweepEvent(p, SweepEvent.EventType.CENTER, origin));
-                eventList.offer(new SweepEvent(p, SweepEvent.EventType.OUT, origin));
+                eventList.offer(new SweepEventCached(p, SweepEvent.EventType.IN, origin));
+                eventList.offer(new SweepEventCached(p, SweepEvent.EventType.CENTER, origin));
+                eventList.offer(new SweepEventCached(p, SweepEvent.EventType.OUT, origin));
                 isInEventlist[p.getXCoor()][p.getYCoor()] = true;
             }
         }
@@ -218,12 +218,12 @@ public class vanKreveldNew implements ViewshedAnalysis {
         return ((int) maxDist) * 8;
     }
 
-    public static void main(String[] args) {
-        Dem d = new Dem("resources/dgm_2.grd");
-        HeightedPoint viewpoint = new HeightedPoint(250, 360, 530);
-
-        vanKreveldNew vkn = new vanKreveldNew();
-        Dem m = vkn.calculateViewshed(d, viewpoint);
-        m.exportToFile("out_new.grd");
-    }
+//    public static void main(String[] args) {
+//        Dem d = new Dem("resources/dgm_2.grd");
+//        HeightedPoint viewpoint = new HeightedPoint(250, 360, 530);
+//
+//        vanKreveldNew vkn = new vanKreveldNew();
+//        Dem m = vkn.calculateViewshed(d, viewpoint);
+//        m.exportToFile("out_new_test.grd");
+//    }
 }
