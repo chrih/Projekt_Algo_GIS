@@ -10,7 +10,6 @@ import de.uniwue.algogis.viewshed.HeightedPoint;
 import de.uniwue.algogis.viewshed.Point;
 import de.uniwue.algogis.viewshed.ModifiableDem;
 import de.uniwue.algogis.viewshed.ViewshedAnalysis;
-
 import java.util.PriorityQueue;
 
 /**
@@ -50,7 +49,7 @@ public class vanKreveldNew implements ViewshedAnalysis {
 
         // sweep line beginnt waagerecht rechts des Standpunkts
         // Liste mit Punkten rechts des Startpunktes in den Baum einfuegen und in event list einfuegen
-        for (HeightedPoint hp : Util.pointsOnLine(d, origin)) {
+        for (HeightedPoint hp : pointsOnLine(d, origin)) {
             int x = hp.getXCoor();
             int y = hp.getYCoor();
             statStruc.insert(hp);
@@ -98,250 +97,116 @@ public class vanKreveldNew implements ViewshedAnalysis {
      * @param d DEM
      * @param origin Standpunkt
      * @param hp aktueller Pixel
-     * 
-     * es gibt neun Moeglichkeiten, an denen der Pixel im grid liegen kann und 
+     *
+     * es gibt neun Moeglichkeiten, an denen der Pixel im grid liegen kann und
      * je nach Lage hat der Pixel unterschiedlich viele Nachbarn
-     * 
-     * 1+++2+++3
-     * +++++++++
-     * 4+++5+++6
-     * +++++++++
-     * 7++8++++9 
-     * 
-     * 1 = linke obere Ecke
-     * 2 = oberer Rand
-     * 3 = rechte obere Ecke
-     * 4 = linker Rand
-     * 5 = irgendwo mittendrin
-     * 6 = rechter Rand
-     * 7 = linke untere Ecke 
-     * 8 = unterer Rand 
-     * 9 = rechte untere Ecke
-     * 
+     *
+     * 1+++2+++3 
+     * +++++++++ 
+     * 4+++5+++6 
+     * +++++++++ 
+     * 7++8++++9
+     *
+     * 1 = linke obere Ecke 2 = oberer Rand 3 = rechte obere Ecke 4 = linker
+     * Rand 5 = irgendwo mittendrin 6 = rechter Rand 7 = linke untere Ecke 8 =
+     * unterer Rand 9 = rechte untere Ecke
+     *
      */
     private void updateEventlist(Dem d, HeightedPoint origin, HeightedPoint hp) {
         int x = hp.getXCoor();
         int y = hp.getYCoor();
+        HeightedPoint[] neighbours = new HeightedPoint[9];
         // rechte Seite
         if (x == maxX) {
             // rechte untere Ecke
             if (y == maxY) {
-                insertNeighboursInEventlist(d, hp, origin, 9);
-                // rechte obere Ecke
-            } else if (y == 0) {
-                insertNeighboursInEventlist(d, hp, origin, 3);
+                neighbours[0] = d.getHeightedPoint(x - 1, y);
+                neighbours[1] = d.getHeightedPoint(x, y - 1);
+                neighbours[2] = d.getHeightedPoint(x - 1, y - 1);
+            } // rechte obere Ecke
+            else if (y == 0) {
+                neighbours[0] = d.getHeightedPoint(x - 1, y);
+                neighbours[1] = d.getHeightedPoint(x, y + 1);
+                neighbours[2] = d.getHeightedPoint(x - 1, y + 1);
             } else {
-                insertNeighboursInEventlist(d, hp, origin, 6);
+                neighbours[0] = d.getHeightedPoint(x, y - 1);
+                neighbours[1] = d.getHeightedPoint(x, y + 1);
+                neighbours[2] = d.getHeightedPoint(x - 1, y);
+                neighbours[3] = d.getHeightedPoint(x - 1, y - 1);
+                neighbours[4] = d.getHeightedPoint(x - 1, y + 1);
             }
-            // linke Seite
-        } else if (x == 0) {
+        } // linke Seite
+        else if (x == 0) {
             // linke untere Ecke
             if (y == maxY) {
-                insertNeighboursInEventlist(d, hp, origin, 7);
+                neighbours[0] = d.getHeightedPoint(x, y - 1);
+                neighbours[1] = d.getHeightedPoint(x + 1, y);
+                neighbours[2] = d.getHeightedPoint(x + 1, y - 1);
                 // linke obere Ecke
             } else if (y == 0) {
-                insertNeighboursInEventlist(d, hp, origin, 1);
+                neighbours[0] = d.getHeightedPoint(x + 1, y);
+                neighbours[1] = d.getHeightedPoint(x + 1, y + 1);
+                neighbours[2] = d.getHeightedPoint(x, y + 1);
             } else {
-                insertNeighboursInEventlist(d, hp, origin, 4);
+                neighbours[0] = d.getHeightedPoint(x, y - 1);
+                neighbours[1] = d.getHeightedPoint(x + 1, y - 1);
+                neighbours[2] = d.getHeightedPoint(x + 1, y);
+                neighbours[3] = d.getHeightedPoint(x + 1, y + 1);
+                neighbours[4] = d.getHeightedPoint(x, y + 1);
             }
             // oberer Rand
         } else if (y == 0) {
-            insertNeighboursInEventlist(d, hp, origin, 2);
+            neighbours[0] = d.getHeightedPoint(x - 1, y);
+            neighbours[1] = d.getHeightedPoint(x - 1, y + 1);
+            neighbours[2] = d.getHeightedPoint(x, y + 1);
+            neighbours[3] = d.getHeightedPoint(x + 1, y + 1);
+            neighbours[4] = d.getHeightedPoint(x + 1, y);
+
         } else if (y == maxY) {
-            insertNeighboursInEventlist(d, hp, origin, 8);
+            neighbours[0] = d.getHeightedPoint(x - 1, y);
+            neighbours[1] = d.getHeightedPoint(x - 1, y - 1);
+            neighbours[2] = d.getHeightedPoint(x, y - 1);
+            neighbours[3] = d.getHeightedPoint(x + 1, y - 1);
+            neighbours[4] = d.getHeightedPoint(x + 1, y);
         } else {
-            insertNeighboursInEventlist(d, hp, origin, 5);
+            neighbours[0] = d.getHeightedPoint(x - 1, y);
+            neighbours[1] = d.getHeightedPoint(x - 1, y - 1);
+            neighbours[2] = d.getHeightedPoint(x + 1, y);
+            neighbours[3] = d.getHeightedPoint(x, y + 1);
+            neighbours[4] = d.getHeightedPoint(x + 1, y + 1);
+            neighbours[5] = d.getHeightedPoint(x + 1, y - 1);
+            neighbours[6] = d.getHeightedPoint(x - 1, y + 1);
+            neighbours[7] = d.getHeightedPoint(x + 1, y);
+            neighbours[7] = d.getHeightedPoint(x, y - 1);
+        }
+
+        for (HeightedPoint p : neighbours) {
+            if (!isInEventlist[p.getXCoor()][p.getYCoor()]) {
+                eventList.offer(new SweepEvent(p, SweepEvent.EventType.IN, origin));
+                eventList.offer(new SweepEvent(p, SweepEvent.EventType.CENTER, origin));
+                eventList.offer(new SweepEvent(p, SweepEvent.EventType.OUT, origin));
+                isInEventlist[p.getXCoor()][p.getYCoor()] = true;
+            }
         }
     }
 
     /**
-     * 
-     * @param d DEM
-     * @param reference aktueller Pixel
-     * @param origin Standpunkt
-     * @param i Typ des Pixel, bestimmt die Lage im grid (siehe Kommentar zu Funktion updateEventlist)
-     * 
-     * findet alle Nachbarn eines Pixels, die noch nicht in der event list sind und fuegt sie ein
-     * 
-     * Bezeichner der Nachbarn:
-     * +++++++++++++++++++++++++++++++
-     * | leftup   | up   | rightup   |
-     * +++++++++++++++++++++++++++++++
-     * | left     |      | right     |
-     * +++++++++++++++++++++++++++++++
-     * | leftdown | down | rightdown |
-     * +++++++++++++++++++++++++++++++
-     * 
+     *
+     * @param d Eingabe-DEM
+     * @param viewpoint Startpunkt, Punkt der Beobachtung
+     * @return alle Punkte, die rechts neben dem Startpunkt liegen und die
+     * gleiche y-Koordinate haben
      */
-    private void insertNeighboursInEventlist(Dem d, HeightedPoint reference, HeightedPoint origin, int i) {
-        int x = reference.getXCoor();
-        int y = reference.getYCoor();
-        // alle moeglichen Nachbarn 
-        HeightedPoint leftup, left, leftdown, down, rightdown, right, rightup, up;
-
-        switch (i) {
-            case 1:
-                down = d.getHeightedPoint(x, y + 1);
-                rightdown = d.getHeightedPoint(x + 1, y + 1);
-                right = d.getHeightedPoint(x + 1, y);
-                HeightedPoint[] temp1 = {right, rightdown, down};
-                for (HeightedPoint hp : temp1) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 2:
-                left = d.getHeightedPoint(x - 1, y);
-                leftdown = d.getHeightedPoint(x - 1, y + 1);
-                down = d.getHeightedPoint(x, y + 1);
-                rightdown = d.getHeightedPoint(x + 1, y + 1);
-                right = d.getHeightedPoint(x + 1, y);
-                HeightedPoint[] temp2 = {left, leftdown, down, rightdown, right};
-                for (HeightedPoint hp : temp2) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 3:
-                left = d.getHeightedPoint(x - 1, y);
-                leftdown = d.getHeightedPoint(x - 1, y + 1);
-                down = d.getHeightedPoint(x, y + 1);
-                HeightedPoint[] temp3 = {left, leftdown, down};
-                for (HeightedPoint hp : temp3) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 4:
-                down = d.getHeightedPoint(x, y + 1);
-                rightdown = d.getHeightedPoint(x + 1, y + 1);
-                right = d.getHeightedPoint(x + 1, y);
-                rightup = d.getHeightedPoint(x + 1, y - 1);
-                up = d.getHeightedPoint(x, y - 1);
-                HeightedPoint[] temp4 = {up, rightup, right, rightdown, down};
-                for (HeightedPoint hp : temp4) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 5:
-                leftup = d.getHeightedPoint(x - 1, y - 1);
-                left = d.getHeightedPoint(x - 1, y);
-                leftdown = d.getHeightedPoint(x - 1, y + 1);
-                down = d.getHeightedPoint(x, y + 1);
-                rightdown = d.getHeightedPoint(x + 1, y + 1);
-                right = d.getHeightedPoint(x + 1, y);
-                rightup = d.getHeightedPoint(x + 1, y - 1);
-                up = d.getHeightedPoint(x, y - 1);
-                HeightedPoint[] temp5 = {up, down, right, left, rightup, rightdown, leftdown, leftup};
-                for (HeightedPoint hp : temp5) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 6:
-                leftup = d.getHeightedPoint(x - 1, y - 1);
-                left = d.getHeightedPoint(x - 1, y);
-                leftdown = d.getHeightedPoint(x - 1, y + 1);
-                down = d.getHeightedPoint(x, y + 1);
-                up = d.getHeightedPoint(x, y - 1);
-                HeightedPoint[] temp6 = {up, leftup, left, leftdown, down};
-                for (HeightedPoint hp : temp6) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 7:
-                right = d.getHeightedPoint(x + 1, y);
-                rightup = d.getHeightedPoint(x + 1, y - 1);
-                up = d.getHeightedPoint(x, y - 1);
-                HeightedPoint[] temp7 = {up, rightup, right};
-                for (HeightedPoint hp : temp7) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 8:
-                leftup = d.getHeightedPoint(x - 1, y - 1);
-                left = d.getHeightedPoint(x - 1, y);
-                up = d.getHeightedPoint(x, y - 1);
-                right = d.getHeightedPoint(x + 1, y);
-                rightup = d.getHeightedPoint(x + 1, y - 1);
-
-                HeightedPoint[] temp8 = {left, leftup, up, rightup, right};
-                for (HeightedPoint hp : temp8) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            case 9:
-                leftup = d.getHeightedPoint(x - 1, y - 1);
-                left = d.getHeightedPoint(x - 1, y);
-                up = d.getHeightedPoint(x, y - 1);
-
-                HeightedPoint[] temp9 = {up, leftup, left};
-                for (HeightedPoint hp : temp9) {
-                    int xCoor = hp.getXCoor();
-                    int yCoor = hp.getYCoor();
-                    if (!isInEventlist[xCoor][yCoor]) {
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.IN, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.CENTER, origin));
-                        eventList.offer(new SweepEvent(hp, SweepEvent.EventType.OUT, origin));
-                        isInEventlist[xCoor][yCoor] = true;
-                    }
-                }
-                break;
-            default:
-                break;
+    private HeightedPoint[] pointsOnLine(Dem d, HeightedPoint viewpoint) {
+        int xCoor = viewpoint.getXCoor();
+        int yCoor = viewpoint.getYCoor();
+        HeightedPoint[] onLine = new HeightedPoint[maxX - xCoor];
+        int j = 0;
+        for (int i = (xCoor + 1); i < (maxX + 1); i++) {
+            onLine[j] = d.getHeightedPoint(i, yCoor);
+            j++;
         }
+        return onLine;
     }
 
     private int calcMaxListCapacity(Dem d, HeightedPoint origin) {
@@ -354,17 +219,12 @@ public class vanKreveldNew implements ViewshedAnalysis {
         return ((int) maxDist) * 8;
     }
 
-//    public static void main(String[] args) {
-//        Dem d = new Dem("resources/dgm_2.grd");
-//        HeightedPoint viewpoint = new HeightedPoint(250, 360, 530);
-//
-//        vanKreveldNew vkn = new vanKreveldNew();
-//        Dem m = vkn.calculateViewshed(d, viewpoint);
-//        m.exportToFile("out.grd");
-//    }
-    
-    @Override
-    public String toString() {
-        return "vknew";
+    public static void main(String[] args) {
+        Dem d = new Dem("resources/dgm_2.grd");
+        HeightedPoint viewpoint = new HeightedPoint(250, 360, 530);
+
+        vanKreveldNew vkn = new vanKreveldNew();
+        Dem m = vkn.calculateViewshed(d, viewpoint);
+        m.exportToFile("out_new.grd");
     }
 }
