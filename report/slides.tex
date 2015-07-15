@@ -92,6 +92,11 @@ Benedikt Budig, M.Sc.}
 
 \begin{frame}
   \frametitle{Der naive Algorithmus}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{naive}
+    \label{fig:naive}
+  \end{figure}
   \begin{itemize}
     \item Für jeden Punkt des DEM:
     \begin{itemize}
@@ -108,6 +113,11 @@ Benedikt Budig, M.Sc.}
 
 \begin{frame}
   \frametitle{Verbesserung: Sweepline (van Krefeld~\cite{van1996variations})}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{Sweep.pdf}
+    \label{fig:sweepline}
+  \end{figure}
   \begin{itemize}
     \item Radiale Sweepline (wie auf einem Radarschirm)
     \item Events bei Beginn, Mitte und Ende eines Pixels, nach Winkel sortiert
@@ -123,14 +133,19 @@ Benedikt Budig, M.Sc.}
     \centering
     \fbox{\includegraphics[height=5cm]{dgm_1}\includegraphics[height=5cm]{dgm_2}\includegraphics[height=5cm]{dgm_10}\includegraphics[height=5cm]{dgm_25}}
     \caption{1, 2, 10 und 25 Meter Auflösung. \newline Laufzeit: 151, 17, 0.16, 0.03 Sekunden}
-    \label{fig:example}
+    \label{fig:resolutions}
   \end{figure}
 \end{frame}
 
-\section{Probleme}
+\section{Probleme und Herausforderungen}
 
 \begin{frame}
-  \frametitle{Probleme: Interpolation des DEM~\cite{fisher1993algorithm}}
+  \frametitle{Problem: Interpolation des DEM, siehe Fischer~\cite{fisher1993algorithm}}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[height=3cm]{interpolation}
+    \label{fig:interpolation}
+  \end{figure}
   \begin{itemize}[<+->]
     \item DEM als Rasterdaten lässt undefinierte Zwischenräume
     \item Interpolation naher Pixel kann große Auswirkungen auf ferne Pixel haben
@@ -139,13 +154,13 @@ Benedikt Budig, M.Sc.}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Probleme: Artefakte an Winkelhalbierenden}
-  \begin{itemize}[<+->]
-    \item 
-    \item 
-    \item 
-    \item 
-  \end{itemize}
+  \frametitle{Problem: Artefakte an Winkelhalbierenden}
+  \begin{figure}[h]
+    \centering
+    \fbox{\includegraphics[height=5cm]{bisectrix}}
+    \caption{Erkennbare Artefakte im oberen linken Bildbereich}
+    \label{fig:bisectrix}
+  \end{figure}
 \end{frame}
 
 \begin{frame}%[shrink=30]

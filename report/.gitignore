@@ -38,3 +38,4 @@ Desktop.ini
 *.brf
 *.nav
 *.snm
+!graphics/*.pdf
