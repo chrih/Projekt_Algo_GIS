@@ -40,4 +40,9 @@ public class BruteForceViewshedAnalysis implements ViewshedAnalysis {
         return parallel ? s.parallel() : s;
     }
     
+    @Override
+    public String toString() {
+        return parallel ? "prute" : "brute";
+    }
+    
 }

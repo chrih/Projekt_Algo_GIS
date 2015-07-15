@@ -9,6 +9,7 @@ import de.uniwue.algogis.viewshed.Dem;
 import de.uniwue.algogis.viewshed.HeightedPoint;
 import de.uniwue.algogis.viewshed.ModifiableDem;
 import de.uniwue.algogis.viewshed.ViewshedAnalysis;
+
 import java.util.PriorityQueue;
 
 /**
@@ -99,4 +100,9 @@ public class vanKreveld implements ViewshedAnalysis {
 //        Dem result = viewshed.calculateViewshed(test, viewpoint);
 //        result.exportToFile("testfile_circle_out.grd");
 //    }
+    
+    @Override
+    public String toString() {
+        return "sweep";
+    }
 }
