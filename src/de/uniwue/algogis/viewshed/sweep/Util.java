@@ -8,8 +8,7 @@ public class Util {
     *
     * @param d Eingabe-DEM
     * @param viewpoint Startpunkt, Punkt der Beobachtung
-    * @return
-    * alle Punkte, die rechts neben dem Startpunkt liegen und die gleiche y-Koordinate haben
+    * @return Alle Punkte, die rechts neben dem Startpunkt liegen und die gleiche y-Koordinate haben
     */
    public static HeightedPoint[] pointsOnLine(Dem d, HeightedPoint viewpoint) {
        int xCoor = viewpoint.getXCoor();
