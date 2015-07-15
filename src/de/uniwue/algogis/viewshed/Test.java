@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 import de.uniwue.algogis.viewshed.sweep.vanKreveld;
-import de.uniwue.algogis.viewshed.sweep.vanKreveldBernhard;
+import de.uniwue.algogis.viewshed.sweep.VanKreveldList;
 import de.uniwue.algogis.viewshed.sweep.vanKreveldNew;
 import de.uniwue.algogis.viewshed.bruteforce.BruteForceViewshedAnalysis;
 
@@ -28,7 +28,8 @@ public class Test {
                 new vanKreveld(),
                 new BruteForceViewshedAnalysis(),
                 new BruteForceViewshedAnalysis(true),
-                new vanKreveldNew()
+                new vanKreveldNew(),
+                new VanKreveldList()
                 };
         
         Dem[] viewsheds;
