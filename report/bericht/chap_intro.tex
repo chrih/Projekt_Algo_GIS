@@ -3,16 +3,41 @@ In unserem Projekt zur Vorlesung ``Algorithmen für geografische Informationssys
 vergleichen verschiedene Lösungs-Algorithmen. \\ Der englische Begriff \textit{viewshed} ist definiert als \textit{die geografische Fläche, die 
 von einem bestimmtem Standpunkt aus sichtbar ist}. Der viewshed wird beispielweise bei folgenden Problemstellungen benötigt:
 \begin{itemize}
- \item Bestimmung günstiger Standorte für Sendemasten, damit möglichst eine große Fläche abgedeckt wird
+ \item Bestimmung günstiger Standorte für Sendemasten
  \item Finden von Aussichtspunkten (z.B. im Gebirge), um Wanderwege planen zu können
  \item Finden von versteckten Routen (z.B. für militärische Zwecke)
  \item Finden von besonders schönen Routen, z.B. entlang der Küste 
 \end{itemize}
-Um den viewshed bestimmen zu können, ist ein sogenanntes \textit{digital elevation model} (DEM) nötig. Ein DEM ist eine zwei- oder 
-dreidimensionale Darstellung einer geografischen Karte und enthält die Höhendaten des dargestellten Gebiets. Für unser Problem ist die 
-zweidimensionale Variante ausreichend. In diesem DEM, welches in unserem Programm als zweidimensionales Array dargestellt wird, wird ein Punkt als 
-Standort gewählt. Um z.B. die Höhe eines Sendemasten miteinzuberechnen, kann auch eine zusätzliche Höhe angegeben werden, welche auf die Höhe des 
-Standorts addiert wird.
+Um den viewshed bestimmen zu können, ist ein sogenanntes \textit{digital elevation model} (DEM) nötig. 
+\noindent Ein DEM ist eine zwei- oder dreidimensionale Darstellung einer geografischen Karte und enthält die Höhendaten des dargestellten Gebiets. 
+Für unsere Problemstellung ist die zweidimensionale Variante ausreichend.
 
-\cite{Fisher} \cite{vanKrev}
+\noindent In einem DEM, welches als zweidimensionales Array dargestellt werden kann, wird ein Punkt als Standort gewählt. Um z.B. die Höhe eines 
+Sendemasten miteinzuberechnen, kann auch eine zusätzliche Höhe angegeben werden, welche auf die Höhe des Standorts addiert wird.
+
+\noindent Als Testdaten wurden DEMs der Bayerischen Vermessungsverwaltung \cite{berchtesgaden} und des Salzburger Geographischen Informationssystems 
+\cite{salzburg} verwendet. Da die Testdaten in einer simplen Textdatei (siehe Abbildung \ref{testfile}) zur Verfügung gestellt werden, lassen sich die Daten leicht 
+auslesen und weiterverarbeiten.
+
+\begin{figure}[!ht]
+ \centering
+ \begin{BVerbatim}
+ncols         501
+nrows         1001
+xllcorner     4490660
+yllcorner     5320200
+cellsize      2
+558.21 558.13 558.08 557.99 557.93 557.81 557.7  ....
+558.1 558.06 557.95 557.89 557.83 557.73 557.6 ....
+557.91 557.85 557.78 557.75 557.67 557.58 557.47 ...
+557.81 557.78 557.7 557.66 557.56 557.48 557.4  ...
+557.64 557.6 557.54 557.46 557.44 557.36 557.23  ...
+557.59 557.51 557.46 557.38 557.37 557.28 557.15 ...
+...
+\end{BVerbatim}
+\caption{DEM-Datei}
+\label{testfile}
+\end{figure}
+
+\noindent Als Programmiersprache wurde Java (Version 1.8) verwendet. 
 
