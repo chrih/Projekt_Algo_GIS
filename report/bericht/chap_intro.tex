@@ -1,2 +1,18 @@
- Test: Hallo \cite{Fisher} \cite{vanKrev} 
- 
+\section{Einleitung}
+In unserem Projekt zur Vorlesung ``Algorithmen für geografische Informationssysteme'' stellen wir das Problem der ``Viewshed''-Analyse vor und 
+vergleichen verschiedene Lösungs-Algorithmen. \\ Der englische Begriff \textit{viewshed} ist definiert als \textit{die geografische Fläche, die 
+von einem bestimmtem Standpunkt aus sichtbar ist}. Der viewshed wird beispielweise bei folgenden Problemstellungen benötigt:
+\begin{itemize}
+ \item Bestimmung günstiger Standorte für Sendemasten, damit möglichst eine große Fläche abgedeckt wird
+ \item Finden von Aussichtspunkten (z.B. im Gebirge), um Wanderwege planen zu können
+ \item Finden von versteckten Routen (z.B. für militärische Zwecke)
+ \item Finden von besonders schönen Routen, z.B. entlang der Küste 
+\end{itemize}
+Um den viewshed bestimmen zu können, ist ein sogenanntes \textit{digital elevation model} (DEM) nötig. Ein DEM ist eine zwei- oder 
+dreidimensionale Darstellung einer geografischen Karte und enthält die Höhendaten des dargestellten Gebiets. Für unser Problem ist die 
+zweidimensionale Variante ausreichend. In diesem DEM, welches in unserem Programm als zweidimensionales Array dargestellt wird, wird ein Punkt als 
+Standort gewählt. Um z.B. die Höhe eines Sendemasten miteinzuberechnen, kann auch eine zusätzliche Höhe angegeben werden, welche auf die Höhe des 
+Standorts addiert wird.
+
+\cite{Fisher} \cite{vanKrev}
+
