@@ -69,15 +69,6 @@ public class vanKreveld implements ViewshedAnalysis {
         return input;
     }
 
-//    public static void main(String[] args) {
-//        Dem test = new Dem("testfile_circle.grd");
-//        HeightedPoint viewpoint = new HeightedPoint(5, 5, 60);
-//
-//        vanKreveld viewshed = new vanKreveld();
-//        Dem result = viewshed.calculateViewshed(test, viewpoint);
-//        result.exportToFile("testfile_circle_out.grd");
-//    }
-    
     @Override
     public String toString() {
         return "sweep";

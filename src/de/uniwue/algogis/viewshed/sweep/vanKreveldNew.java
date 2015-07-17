@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.uniwue.algogis.viewshed.sweep;
 
 import de.uniwue.algogis.viewshed.Dem;
@@ -14,6 +9,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
+ * The same algorithm as {@link vanKreveld}, but only putting the neighbouring points
+ * into the priority queue.
  *
  * @author Christina Hempfling, Moritz Beck, Jona Kalkus, Bernhard Haeussner
  */
@@ -51,7 +48,7 @@ public class vanKreveldNew implements ViewshedAnalysis {
 
         // sweep line beginnt waagerecht rechts des Standpunkts
         // Liste mit Punkten rechts des Startpunktes in den Baum einfuegen und in event list einfuegen
-        for (HeightedPoint hp : pointsOnLine(d, origin)) {
+        for (HeightedPoint hp : Util.pointsOnLine(d, origin)) {
             int x = hp.getXCoor();
             int y = hp.getYCoor();
             statStruc.insert(hp);
@@ -189,25 +186,6 @@ public class vanKreveldNew implements ViewshedAnalysis {
         }
     }
 
-    /**
-     *
-     * @param d Eingabe-DEM
-     * @param viewpoint Startpunkt, Punkt der Beobachtung
-     * @return alle Punkte, die rechts neben dem Startpunkt liegen und die
-     * gleiche y-Koordinate haben
-     */
-    private HeightedPoint[] pointsOnLine(Dem d, HeightedPoint viewpoint) {
-        int xCoor = viewpoint.getXCoor();
-        int yCoor = viewpoint.getYCoor();
-        HeightedPoint[] onLine = new HeightedPoint[maxX - xCoor];
-        int j = 0;
-        for (int i = (xCoor + 1); i < (maxX + 1); i++) {
-            onLine[j] = d.getHeightedPoint(i, yCoor);
-            j++;
-        }
-        return onLine;
-    }
-
     private int calcMaxListCapacity(Dem d, HeightedPoint origin) {
         double dist1 = origin.calcDistance(new Point(0, 0));
         double dist2 = origin.calcDistance(new Point(maxX, 0));
@@ -218,12 +196,8 @@ public class vanKreveldNew implements ViewshedAnalysis {
         return ((int) maxDist) * 8;
     }
 
-//    public static void main(String[] args) {
-//        Dem d = new Dem("resources/dgm_2.grd");
-//        HeightedPoint viewpoint = new HeightedPoint(250, 360, 530);
-//
-//        vanKreveldNew vkn = new vanKreveldNew();
-//        Dem m = vkn.calculateViewshed(d, viewpoint);
-//        m.exportToFile("out_new_test.grd");
-//    }
+    @Override
+    public String toString() {
+        return "vKnew";
+    }
 }
