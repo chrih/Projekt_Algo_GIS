@@ -8,6 +8,20 @@ von einem bestimmtem Standpunkt aus sichtbar ist}. Der viewshed wird beispielwei
  \item Finden von versteckten Routen (z.B. für militärische Zwecke)
  \item Finden von besonders schönen Routen, z.B. entlang der Küste 
 \end{itemize}
+\begin{figure}[!ht]
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[scale=0.85]{bilder/berg_viewpoint}
+\caption{Landkarte im Gebirge, der Standpunkt ist schwarz markiert}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[scale=0.85]{bilder/berg_viewshed}
+\caption{Die rote Fläche zeigt den vom Standpunkt aus sichtbaren Teil des Gebiets}
+\end{minipage}
+\end{figure}
+
 Um den viewshed bestimmen zu können, ist ein sogenanntes \textit{digital elevation model} (DEM) nötig. 
 \noindent Ein DEM ist eine zwei- oder dreidimensionale Darstellung einer geografischen Karte und enthält die Höhendaten des dargestellten Gebiets. 
 Für unsere Problemstellung ist die zweidimensionale Variante ausreichend.
@@ -35,7 +49,7 @@ cellsize      2
 557.59 557.51 557.46 557.38 557.37 557.28 557.15 ...
 ...
 \end{BVerbatim}
-\caption{DEM-Datei}
+\caption{DEM-Datei mit Angabe der Breite (ncols) und Höhe (nrows) des DEMs sowie der Größe einer Zelle (hier: 2 Meter)}
 \label{testfile}
 \end{figure}
 
