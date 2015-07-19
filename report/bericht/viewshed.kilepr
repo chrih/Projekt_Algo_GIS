@@ -124,30 +124,30 @@ order=-1
 
 [item:chap_intro.tex]
 archive=true
-column=21
+column=60
 encoding=UTF-8
 highlight=LaTeX
-line=40
+line=32
 mode=LaTeX
 open=false
 order=1
 
 [item:chap_problems.tex]
 archive=true
-column=18
+column=15
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=5
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=2
 
 [item:chap_sweep.tex]
 archive=true
-column=13
+column=115
 encoding=UTF-8
 highlight=LaTeX
-line=20
+line=96
 mode=LaTeX
 open=true
 order=1
@@ -164,10 +164,10 @@ order=-1
 
 [item:viewshed.tex]
 archive=true
-column=0
+column=21
 encoding=UTF-8
 highlight=LaTeX
-line=35
+line=28
 mode=LaTeX
 open=true
 order=0
@@ -197,25 +197,25 @@ JumpList=
 ViMarks=.,0,9,[,0,9,],0,9
 
 [view-settings,view=0,item:chap_intro.tex]
-CursorColumn=21
-CursorLine=40
+CursorColumn=60
+CursorLine=32
 JumpList=
 ViMarks=.,51,89,[,51,85,],51,89
 
 [view-settings,view=0,item:chap_problems.tex]
-CursorColumn=18
-CursorLine=0
+CursorColumn=15
+CursorLine=5
 JumpList=
-ViMarks=.,0,16,[,0,9,],0,16
+ViMarks=.,5,14,[,5,7,],5,14
 
 [view-settings,view=0,item:chap_sweep.tex]
-CursorColumn=13
-CursorLine=20
+CursorColumn=115
+CursorLine=96
 JumpList=
-ViMarks=.,37,138,[,37,92,],37,138
+ViMarks=.,124,47,[,124,47,],124,47
 
 [view-settings,view=0,item:viewshed.tex]
-CursorColumn=0
-CursorLine=35
+CursorColumn=21
+CursorLine=28
 JumpList=
 ViMarks=.,33,0,[,33,0,],33,7
