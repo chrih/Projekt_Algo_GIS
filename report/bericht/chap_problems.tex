@@ -1,9 +1,75 @@
 \section{Probleme}
 
-\subsection{Datenstrukturen}
+\subsection{Datenstruktur der Statusstruktur}
+\label{tree}
+Die von van Kreveld vorgeschlagene Datenstruktur eines balancierten binären Baums ist in dieser Form noch nicht in Java 1.8 vorhanden. Daher mussten 
+wir diese selbst implementieren. 
 
 \subsection{Speicherbedarf und Laufzeit}
 \label{speicher}
+
+Wie bereits am Ende von Kapitel \ref{sweep_adjust} erwähnt, hat die erste von uns implementierte Version des van Kreveld-Algorithmus eine 
+wesentlich schlechtere Laufzeit als die des naiven Algorithmus. Durch entsprechende Tests wurde deutlich, dass bei van Krevelds Algorithmus vor allem
+der Speicherbedarf eine große Rolle spielt und schnell war eines der Probleme identifiziert: die event list. Am Anfang des Programms wird die event list 
+mit allen Eventtypen aller Pixel befüllt und enthält dadurch insgesamt $n \cdot n \cdot 3$ Elemente. Je größer das DEM nun ist, umso mehr Elemente 
+umfasst die event list und umso mehr Speicher wird benötigt. So werden beispielsweise für ein DEM von 500x1000 Pixeln 1,5 Millionen Werte 
+gleichzeitig im Speicher gehalten, was zu einer enormen Verlängerung der Laufzeit führt. 
+
+Durch die folgenden drei Überlegungen können wir die Laufzeit des van Kreveld-Algorithmus deutlich verbessern.
+
+\subsubsection{Verkleinern der event list}
+Die Idee zur Verkleinerung der event list ist die folgende: Um einen enormen Speicherbedarf zu verhindern, wird die event list zu Beginn nicht mit 
+allen Werten befüllt, sondern sie enthält nur die für die aktuelle Berechnung notwendigen events. Nach jeder Berechnung wird die event list dann 
+aktualisiert. 
+
+\begin{figure}[!ht]
+ \centering
+ \begin{BVerbatim}
+  Initialisiere die Statusstruktur 
+  Fülle die event list mit den auf der sweep line enthaltenen Pixeln 
+  Solange die event list noch nicht leer ist 
+    Do Nimm das erste event aus der Liste 
+      Falls Typ == EventType.IN
+	  füge Pixel in die Statusstruktur ein
+      Falls Typ == EventType.OUT
+	  lösche Pixel in der Statusstruktur 
+      Falls Typ == EventType.CENTER
+	  berechne die Sichtbarkeit des Pixels mit Hilfe der in der Statusstruktur 
+	  gespeicherten Daten
+      Berechne für den Pixel des events alle benachbarten Pixel 
+	  Falls ein Nachbarpixel noch nicht in der event list ist
+	       füge seine events in die event list ein
+    EndDo
+
+ \end{BVerbatim}
+ \caption{Pseudocode für van Kreveld-Algorithmus mit verbesserter event list}
+ \label{pseudo_krev_ev_klein}
+\end{figure}
+
+Wie aus dem Pseudocode in Abbildung \ref{pseudo_krev_ev_klein} zu entnehmen ist, wird die event list zunächst nur mit den events der Pixel befüllt,
+die gerade auf der sweep line liegen -- also allen Pixeln, die rechts neben dem Standortpixel liegen und dieselbe y-Koordinate haben. Dann wird das 
+erste event aus der Liste genommen und die Berechnungen durchgeführt. Bevor nun das nächste event aus der Liste genommen wird, wird die event list 
+aktualisiert, d.h. wir berechnen alle Nachbarpixel des aktuellen Pixels und fügen die events dieser Pixel -- vorausgesetzt, dass diese noch nicht in 
+der Liste sind -- ein. Um zu überprüfen, ob die events eines Pixels bereits in der event list sind, wird ein zweidimensionales Array mit 
+den selben Abmessungen wie das DEM erstellt und dort für jeden Pixel ein boolean angelegt, dessen Wert auf ``true'' gesetzt wird, sobald die events 
+des Pixels einmal in die event list eingefügt wurden.
+
+Die Verbesserung, die sich durch diese Änderung ergibt, ist beachtlich, aber die Laufzeit liegt immer noch weit über der des naiven Algorithmus 
+(siehe Kapitel \ref{exp}).
+
+\subsubsection{Ändern der Datenstruktur der event list}
+
+Ein weiterer Aspekt der Laufzeitoptimierung ist das Finden einer optimal(er)en Datenstruktur für die event list. Bisher haben wir die Java-interne 
+Prioritätswarteschlange als Datenstruktur benutzt (PriorityQueue). Jedoch stellt sich heraus, dass eine simple ArrayList auch eine geeignete Lösung
+ist und die Laufzeit nochmals verkleinern kann. Daher wird diese Änderung übernommen und entgegen des Vorschlags von van Kreveld mit einer ArrayList
+weitergearbeitet. Die Verbesserung der Laufzeit ist in Kapitel \ref{exp} zu sehen.
+
+\subsubsection{Berechnung der Winkel speichern}
+
+Eine weitere ausschlaggebende Verbesserung ist das Ändern der Methode der Sortierung der events in die Liste. Um das event an die richtige Position 
+in der event list einzufügen, wird der Winkel zum Standort berechnet und anhand dessen die Position in der Liste bestimmt. Diese Berechnung wird 
+jedesmal erneut aufgerufen und führt daher zu unnötiger Rechenzeit. Um diesem Problem zuvorzukommen, wird der Wert der Winkel einmal berechnet und 
+dann gespeichert (``gecached''). Dies führt nochmals zu einer großen Verbesserung der Laufzeit (siehe Kapitel \ref{exp}).
 
 \subsection{Artefakte}
 

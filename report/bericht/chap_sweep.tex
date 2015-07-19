@@ -65,7 +65,7 @@ Initialisiere die event list und die Statusstruktur
 \end{figure}
 
 \subsection{Anpassung des sweep line-Algorithmus für das Problem der viewshed-Analyse}
-
+\label{sweep_adjust}
 Um den sweep line-Algorithmus für die viewshed-Analyse benutzen zu können, müssen ein paar kleine Anpassungen vorgenommen werden. Im Gegensatz zu 
 der in Abbildung \ref{sweep} gezeigten horizontalen sweep line, legt van Kreveld den Ursprung der Linie auf die Koordinaten des Standorts und lässt 
 sie dann wie bei einem Radar in einer Kreisbewegung über das DEM streichen (siehe Abbildung \ref{sweep_k}).
@@ -93,8 +93,8 @@ Für jeden Pixel im DEM wird der Winkel zum Standort berechnet, unter dem die dr
 in der event list nach dem Winkel zum Standort sortiert werden. Somit wird das Prinzip der kreisförmigen Bewegung der sweep line realisiert, da die 
 Pixel der Reihe nach mit aufsteigendem Winkel abgearbeitet werden. 
 
-%  TODO: Statusstruktur beschreiben
-Die Berechnung, ob ein Pixel vom Standort aus sichtbar ist, erfolgt mit Hilfe der Statusstruktur. In dieser werden 
+Die Berechnung, ob ein Pixel vom Standort aus sichtbar ist, erfolgt mit Hilfe der Statusstruktur, welche in Kapitel \ref{tree} genauer beschrieben 
+ist.
 
 Unsere (erste) Implementierung des van Kreveld-Algorithmus lässt sich folgendermaßen als Pseusocode darstellen:
 
@@ -102,8 +102,8 @@ Unsere (erste) Implementierung des van Kreveld-Algorithmus lässt sich folgender
  \centering
  \begin{BVerbatim}
   Initialisiere die Statusstruktur 
-  Fülle die event list, indem für jeden Pixel im DEM alle drei Eventtypen in die event list 
-    eingefügt werden  
+  Fülle die event list, indem für jeden Pixel im DEM die drei entsprechenden Eventtypen 
+    in die event list eingefügt werden  
   Solange die event list noch nicht leer ist 
     Do Nimm das erste event aus der Liste 
       Falls Typ == EventType.IN
