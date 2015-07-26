@@ -3,7 +3,27 @@
 \subsection{Datenstruktur der Statusstruktur}
 \label{tree}
 Die von van Kreveld vorgeschlagene Datenstruktur eines balancierten binären Baums ist in dieser Form noch nicht in Java 1.8 vorhanden. Daher mussten 
-wir diese selbst implementieren. 
+wir diese selbst implementieren.
+Van Kreveld schlägt einen balancierten Binärbaum vor, der nur in den Blattknoten Pixel abspeichert
+und in jedem inneren Knoten $v$ die maximale Steigung aller Blätter des Teilbaums mit Wurzel $v$ speichert.
+Java stellt zwar balancierte Binärbäume zur Verfügung, allerdings können diese weder augmentiert werden,
+noch speichern diese ihre Elemente ausschließlich in den Blattknoten.
+Deshalb haben wir die Statusstruktur basierend auf Code für einen Rot-Schwarz-Baum im Java Development Kit (TreeMap.java) implementiert.
+Sie stellt einen Rot-Schwarz-Baum dar, der -- im Gegensatz zu van Krevelds Vorschlag -- in \emph{jedem} Knoten einen Pixeleintrag abspeichert
+und jeden Knoten $v$ um dessen Steigung (slope) und die maximale Steigung (maxSlope) aller Nachfahrknoten augmentiert.
+Bereitgestellt werden die Methoden \verb|insert(HeightedPoint pt)|, \verb|delete(HeightedPoint pt)| und \verb|isVisible(HeightedPoint pt)|,
+die die Operationen implementieren, die bei den Ereignissen \verb|IN|, \verb|OUT| beziehungsweise \verb|CENTER| ausgeführt werden.
+Innerhalb der Statusstruktur sind die Pixel nach ihrer Distanz zum Standpunkt georgnet.
+Weil in der Statusstruktur genau die Pixel gehalten werden, die auf der Sichtlinie liegen, bedeutet dies,
+dass alle Pixel, die die Sicht auf einen bestimmten verdecken können, links diesen Pixels in dem Baum liegen.
+Die Methode \verb|isVisible(HeightedPoint pt)| muss also nur logaritmisch viele Vergleiche durchführen, siehe Abbildung~\ref{fig:isVisible}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=.7\textwidth]{bilder/StatusStructure_isVisible}
+    \caption[StatusStructure.isVisible(HeightedPoint pt)]{StatusStructure.isVisible(HeightedPoint pt): Die Steigung des gesuchten Punktes~pt muss mit der Steigung aller weiter links liegenden Punkte verglichen werden.}
+    \label{fig:isVisible}
+\end{figure}
 
 \subsection{Speicherbedarf und Laufzeit}
 \label{speicher}
@@ -18,6 +38,7 @@ gleichzeitig im Speicher gehalten, was zu einer enormen Verlängerung der Laufze
 Durch die folgenden drei Überlegungen können wir die Laufzeit des van Kreveld-Algorithmus deutlich verbessern.
 
 \subsubsection{Verkleinern der event list}
+\label{ev_klein}
 Die Idee zur Verkleinerung der event list ist die folgende: Um einen enormen Speicherbedarf zu verhindern, wird die event list zu Beginn nicht mit 
 allen Werten befüllt, sondern sie enthält nur die für die aktuelle Berechnung notwendigen events. Nach jeder Berechnung wird die event list dann 
 aktualisiert. 
