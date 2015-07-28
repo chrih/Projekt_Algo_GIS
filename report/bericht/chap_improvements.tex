@@ -1,1 +1,23 @@
 \section{Optimierungsansätze}
+Die implementierten Algorithmen lassen weitere Optimierungen zu.
+% - Priortätswarteschlange klein halten
+Ein Optimierungsansatz, der bereits implementiert wurde, ist, die Prioritätswarteschlange der zukünfigen Ereignisse klein zu halten.
+Dies wird erreicht, indem die Ereignisobjekte nach und nach erstellt und in der Warteschlange eingereiht werden,
+anstatt dies gleich am Anfang des Algorithmus für alle Pixel zu tun.
+Details dazu sind in Abschnitt~\ref{ev_klein} zu finden.
+
+% - parallelisieren des Problems (Aufteilen des grids in Teile und einzeln prozessieren)
+Weiterhin kann die Berechnung des Viewsheds parallelisiert werden.
+Dies ist für den naiven Algorithmus besonders leicht, weil die Sichtbarkeit jedes Pixel unabhängig von allen anderen berechnet wird.
+Da der naive Algorithmus mit Java-\emph{Streams} implementiert wurde und diese Parallelisierung sprachseitig unterstützen,
+konnte der Algorithmus ohne Aufwand parallelisiert werden.
+Bei dem Sweep-Line-Algorithmus müssen die Pixel anders aufgeteilt werden, um die Vorteile der Sweep-Line weiterhin ausnutzen zu können.
+Man teilt hier die Ebene an bestimmten Winkeln auf, zum Beispiel in die vier Quadranten (das heißt an den Winkeln $0^\circ$, $90^\circ$, $180^\circ$ und $270^\circ$).
+Dann überstreichen mehrere Sweep-Lines gleichzeitig die Ebene und beschleunigen so die Berechnung des Viewsheds.
+
+% - Quadtrees
+Ein weiterer Optimierungsansatz ist, den Viewshed erst nur grob zu berechnen -- also für aggregierte Pixel -- und dann graduell zu verfeinern.
+Man teilt also die Ebene hierarchisch in Blöcke auf und speichert für jeden Pixelblock die minimale und maximale Höhe.
+Wenn ein Pixelblock auf seiner Maximalhöhe von einem Block mit seiner Minimalhöhe verdeckt wird, kann der komplette Block als nicht sichtbar markiert werden.
+Analog kann ein Pixelblock auf seiner Minimalhöhe, der von keinem Block auf seiner Maximalhöhe verdeckt wird, als sichtbar markiert werden.
+Man vermeidet unter Umständen also die Berechnung der Sichtbarkeit einiger Pixel, beispielsweise wenn eine Erhebung die ganze Landschaft hinter sich verdeckt.
