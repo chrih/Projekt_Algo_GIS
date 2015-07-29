@@ -79,14 +79,14 @@ Die Verbesserung, die sich durch diese Änderung ergibt, ist beachtlich, aber di
 (siehe Kapitel \ref{exp}).
 
 \subsubsection{Ändern der Datenstruktur der event list}
-
+\label{list}
 Ein weiterer Aspekt der Laufzeitoptimierung ist das Finden einer optimal(er)en Datenstruktur für die event list. Bisher haben wir die Java-interne 
 Prioritätswarteschlange als Datenstruktur benutzt (PriorityQueue). Jedoch stellt sich heraus, dass eine simple ArrayList auch eine geeignete Lösung
 ist und die Laufzeit nochmals verkleinern kann. Daher wird diese Änderung übernommen und entgegen des Vorschlags von van Kreveld mit einer ArrayList
 weitergearbeitet. Die Verbesserung der Laufzeit ist in Kapitel \ref{exp} zu sehen.
 
 \subsubsection{Berechnung der Winkel speichern}
-
+\label{cached}
 Eine weitere ausschlaggebende Verbesserung ist das Ändern der Methode der Sortierung der events in die Liste. Um das event an die richtige Position 
 in der event list einzufügen, wird der Winkel zum Standort berechnet und anhand dessen die Position in der Liste bestimmt. Diese Berechnung wird 
 jedesmal erneut aufgerufen und führt daher zu unnötiger Rechenzeit. Um diesem Problem zuvorzukommen, wird der Wert der Winkel einmal berechnet und 

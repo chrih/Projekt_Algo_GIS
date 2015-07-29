@@ -1,2 +1,36 @@
 \section{Experimente}
 \label{exp}
+
+\subsection{Laufzeitenanalyse}
+
+Für die folgenden Versionen der jeweilige Algorithmen wurden die Laufzeiten bestimmt und in Tabelle \ref{runtimes} nachzulesen.
+\begin{enumerate}
+ \item naiver Algorithmus (NA)
+ \item naiver Algorithmus, parallelisiert (NAP)
+ \item van Kreveld-Algorithmus (VK)
+ \item van Kreveld-Algorithmus mit erster Optimierung (VK1) (siehe \ref{ev_klein})
+ \item van Kreveld-Algorithmus mit zweiter Optimierung (VK2) (siehe \ref{list})
+ \item van Kreveld-Algorithmus mit dritter Optimierung (VK3) (siehe \ref{cached})
+\end{enumerate}
+
+Es wurde jeweils ein Punkt in der Mitte des DEMs gewählt, sowie eine Höhe von 560 Metern für den Standort gewählt. 
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|C{2cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|}
+\hline
+\label{runtimes}
+Pixelgröße & 1m & 2m & 5m & 10m & 25m & 50m \\ \hline
+NA & 77.041 & 7.933 & 464 & 228 & 58 & 33 \\ \hline
+NAP & 37.591 & 3.138 & 220 & 88 & 17 & 13 \\ \hline
+VK & 235.837 & 52.454 & 7.470 & 3.431 & 483 & 116 \\ \hline
+VK1 & 127.659 & 29.625 & 4.416 & 2.190 & 326 & 87 \\ \hline
+VK2 & 6.079 & 1.194 & 243 & 127 & 47 & 21 \\ \hline
+VK3 & 5.805 & 1.153 & 219 & 120 & 42 & 20 \\ \hline
+\end{tabular}
+\caption{Laufzeit der verschiedenen Versionen des viewshed-Algorithmus. Die Zeiten sind in Millisekunden angegeben.}
+\end{table}
+
+Es ist deutlich zu sehen, dass vor allem die beiden ersten Optimierungen des van Kreveld-Algorithmus die Laufzeit enorm verkürzen. Interessant ist 
+auch die Tatsache, dass der parallelisierte naive Algorithmus ab einer gewissen (geringen) Größe des DEMs die Laufzeit des van Kreveld-Algorithmus unterbieten 
+kann. 
