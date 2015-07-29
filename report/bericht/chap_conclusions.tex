@@ -1,12 +1,12 @@
 \section{Fazit}
-In diesem Projekt untersuchten wir Möglichkeiten, den Viewshed eines Punktes zu berechnen.
-Als Basis wurde ein naiver Algorithmus mit einer Laufzeit von $O(n^3)$ bei einer Seitenlänge von $n$ implementiert.
-Weiterhin wurde ein effizienter Algorithmus implementiert, der von van Kreveld~\cite{vanKrev} vorgestellt wurde und eine Laufzeit von $O(n^2\log(n))$ benötigt.
+In diesem Projekt untersuchten wir MÃ¶glichkeiten, den Viewshed eines Punktes zu berechnen.
+Als Basis wurde ein naiver Algorithmus mit einer Laufzeit von $O(n^3)$ bei einer SeitenlÃ¤nge von $n$ implementiert.
+Weiterhin wurde ein effizienter Algorithmus implementiert, der von van Kreveld~\cite{vanKrev} vorgestellt wurde und eine Laufzeit von $O(n^2\log(n))$ benÃ¶tigt.
 Die Algorithmen wurden auf unterschiedliche Weise optimiert, wie durch Parallelisierung oder Verwendung alternativer Datenstrukturen.
-Die Implementierung dieser verschiedenen Algorithmen zur Berechnung des Viewsheds hat gezeigt, dass die Laufzeit stark von der Eingabe abhängt.
-Je kleiner die Pixelgröße des DEMs, desto höher die Laufzeit -- desto genauer aber auch die Ergebnisse.
-Wie jedoch in Abbildung \ref{dgm_erg} gezeigt, ist bei einer Pixelgröße von 1 bis 10 Metern kaum ein Unterschied mit dem bloßen Auge zu erkennen.
-Somit lässt sich einiges an Rechenzeit einsparen,
-wenn man zunächst einen groben Viewshed mit einer größeren Pixelgröße (und somit kleinere Auflösung) berechnet
-und dann -- falls gewüscht -- kleine Teile des DEMs genauer betrachtet.
-Weitere mögliche Ansätze zur Verbesserung der Laufzeit wurden in Kapitel~\ref{opt_an} vorgestellt.
+Die Implementierung dieser verschiedenen Algorithmen zur Berechnung des Viewsheds hat gezeigt, dass die Laufzeit stark von der Eingabe abhÃ¤ngt.
+Je kleiner die PixelgrÃ¶ÃŸe des DEMs, desto hÃ¶her die Laufzeit -- desto genauer aber auch die Ergebnisse.
+Wie jedoch in Abbildung \ref{dgm_erg} gezeigt, ist bei einer PixelgrÃ¶ÃŸe von 1 bis 10 Metern kaum ein Unterschied mit dem bloÃŸen Auge zu erkennen.
+Somit lÃ¤sst sich einiges an Rechenzeit einsparen,
+wenn man zunÃ¤chst einen groben Viewshed mit einer grÃ¶ÃŸeren PixelgrÃ¶ÃŸe (und somit kleinere AuflÃ¶sung) berechnet
+und dann -- falls gewÃ¼scht -- kleine Teile des DEMs genauer betrachtet.
+Weitere mÃ¶gliche AnsÃ¤tze zur Verbesserung der Laufzeit wurden in Kapitel~\ref{opt_an} vorgestellt.
