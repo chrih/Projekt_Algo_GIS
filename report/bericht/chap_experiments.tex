@@ -3,7 +3,9 @@
 
 \subsection{Laufzeitenanalyse}
 
-Für die folgenden Versionen der jeweilige Algorithmen wurden die Laufzeiten bestimmt und in Tabelle \ref{runtimes} nachzulesen.
+Für die folgenden Versionen der jeweilige Algorithmen wurden die Laufzeiten bestimmt, diese sind in Tabelle \ref{runtimes} nachzulesen. 
+Die Ausgabe der Algorithmen für die unterschiedlichen Testdaten ist in Abbildung~\ref{dgm_erg} dargestellt. 
+
 \begin{enumerate}
  \item naiver Algorithmus (NA)
  \item naiver Algorithmus, parallelisiert (NAP)
@@ -13,14 +15,24 @@ Für die folgenden Versionen der jeweilige Algorithmen wurden die Laufzeiten bes
  \item van Kreveld-Algorithmus mit dritter Optimierung (VK3) (siehe \ref{cached})
 \end{enumerate}
 
-Es wurde jeweils ein Punkt in der Mitte des DEMs gewählt, sowie eine Höhe von 560 Metern für den Standort gewählt. 
+Es wurde jeweils ein Punkt in der Mitte des DEMs mit einer Höhe von 560 Metern für den Standort gewählt. 
+Die Messungen wurden mit unterschiedlich hoch aufgelösten DEMs des jeweils selben Geländes gemacht. Die jeweilige Pixelgröße ist in der Tabelle mit angegeben. 
+Die Daten sind Testdaten des Bayerischen Vermessungsverwaltung \cite{berchtesgaden} und sind direkt in unterschiedlichen Auflösungen verfügbar. 
+Innerhalb des Projekts wurde deshalb nicht näher darauf eingegangen, wie sich Daten derartig vereinfachen lassen. 
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=\textwidth]{bilder/dgm_ergebnisse}
+ \caption{Grafische Darstellung der Ergebnisse \newline(v.l.n.r. 1m, 2m, 5m, 10m, 25m und 50m Auflösung)}
+ \label{dgm_erg}
+\end{figure}
 
 \begin{table}[!ht]
 \centering
-\begin{tabular}{|C{2cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|}
+\begin{tabular}{|C{2cm}|R{1.6cm}|R{1.6cm}|R{1.6cm}|R{1.6cm}|R{1.6cm}|R{1.6cm}|}
 \hline
-\label{runtimes}
-Pixelgröße & 1m & 2m & 5m & 10m & 25m & 50m \\ \hline
+Pixelgröße & 1m & 2m & 5m & 10m & 25m & 50m \\ 
+Abmessungen & 1000x2000 & 500x1000 & 200x400 & 100x200 & 40x80 & 20x40 \\ \hline
 NA & 77.041 & 7.933 & 464 & 228 & 58 & 33 \\ \hline
 NAP & 37.591 & 3.138 & 220 & 88 & 17 & 13 \\ \hline
 VK & 235.837 & 52.454 & 7.470 & 3.431 & 483 & 116 \\ \hline
@@ -29,8 +41,10 @@ VK2 & 6.079 & 1.194 & 243 & 127 & 47 & 21 \\ \hline
 VK3 & 5.805 & 1.153 & 219 & 120 & 42 & 20 \\ \hline
 \end{tabular}
 \caption{Laufzeit der verschiedenen Versionen des viewshed-Algorithmus. Die Zeiten sind in Millisekunden angegeben.}
+\label{runtimes}
 \end{table}
 
 Es ist deutlich zu sehen, dass vor allem die beiden ersten Optimierungen des van Kreveld-Algorithmus die Laufzeit enorm verkürzen. Interessant ist 
 auch die Tatsache, dass der parallelisierte naive Algorithmus ab einer gewissen (geringen) Größe des DEMs die Laufzeit des van Kreveld-Algorithmus unterbieten 
 kann. 
+Zu beachten ist auch, dass die Ergebnisse trotz unterschiedlicher Auflösung weitgehend übereinstimmen. Somit ist, abhängig vom Zweck der viewshed-Analyse, eine Verwendung geringer aufgelöster Daten zur Einsparung von Rechenzeit durchaus sinnvoll. 
