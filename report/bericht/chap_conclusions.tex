@@ -1,1 +1,7 @@
 \section{Fazit}
+
+Letztendlich hat die Implementierung verschiedener Algorithmen zur Berechnung des viewsheds gezeigt, dass die Laufzeit stark von der 
+Eingabe abhängt. Je kleiner die Pixelgröße des DEMs, desto höher die Laufzeit -- desto genauer aber auch die Ergebnisse. Wie jedoch in Abbildung 
+\ref{dgm_erg} gezeigt, ist bei einer Pixelgröße von 1 bis 10 Metern kaum ein Unterschied mit dem bloßen Auge zu erkennen. Somit lässt sich einiges
+an Rechenzeit einsparen, wenn man zunächst einen groben viewshed mit einer größeren Pixelgröße (und somit kleinere Auflösung) berechnet und dann --falls
+gewünscht -- kleine Teile des DEMs genauer betrachtet. 
