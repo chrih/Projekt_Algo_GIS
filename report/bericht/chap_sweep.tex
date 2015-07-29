@@ -6,12 +6,12 @@ in $O(n^2)$ liegt. Somit sollte eine Verbesserung der Laufzeit möglichst nahe a
 \cite{vanKrev} werden Optimierungsvorschläge vorgestellt und gezeigt, dass die Laufzeit auf $O(n^2\log n)$ verbessert werden kann. 
 
 \subsection{Der sweep line-Algorithmus}
-Van Krevelds Algorithmus beruht auf dem Prinzip der sogenannten ``sweep line''. Allgemein ist eine sweep line eine (horizontale) Linie, 
-welche über eine Menge von Objekten in einer Ebene ``streicht'' und dabei alle relevanten Informationen bezüglich einer Problemstellung ausliest und 
+Van Krevelds Algorithmus beruht auf dem Prinzip der sogenannten \glqq sweep line\grqq. Allgemein ist eine sweep line eine (horizontale) Linie, 
+welche über eine Menge von Objekten in einer Ebene \glqq streicht\grqq und dabei alle relevanten Informationen bezüglich einer Problemstellung ausliest und 
 sammelt, damit diese dann weiterverarbeitet werden können. Beispielsweise kann die Linie über eine Ebene streichen und dabei den Beginn und das Ende 
 geometrischer Formen detektieren (siehe Abbildung \ref{sweep}). Da sich die Menge der Objekte, die die Linie schneiden, oft ändert, muss für das 
 Sammeln der Informationen eine flexible Datenstruktur gewählt werden. Hierfür eignet sich ein balancierter binärer Baum, welcher als 
-``Statusstruktur'' bezeichnet wird (siehe Abbildung \ref{stat}) und die Änderungen des Status festzuhalten. 
+\glqq Statusstruktur\grqq bezeichnet wird (siehe Abbildung \ref{stat}) und die Änderungen des Status festzuhalten. 
 
 \begin{figure}[!ht]
 \begin{minipage}{0.55\textwidth}
@@ -29,13 +29,13 @@ Sammeln der Informationen eine flexible Datenstruktur gewählt werden. Hierfür 
 \end{minipage}
 \end{figure}
 
-Um zu wissen, wann sich der Status ändert -- also wenn die Linie beispielsweise ein neues Objekt schneidet -- werden sogenannte ``events'' eingeführt
+Um zu wissen, wann sich der Status ändert -- also wenn die Linie beispielsweise ein neues Objekt schneidet -- werden sogenannte \glqq events\grqq eingeführt
 und ebenfalls in einer eigenen Datenstruktur gespeichert. Hierfür kann eine Prioritätswarteschlange oder ebenfalls ein balancierter binärer Baum 
 benutzt werden. Für das Beispiel der viewshed-Analyse ist die Definition folgender events sinnvoll: 
 \begin{itemize}
  \item die sweep line detektiert beim Streichen über das DEM einen neuen Pixel
  \item die sweep line detektiert beim Streichen über das DEM den Mittelpunkt eines Pixels
- \item die sweep line detektiert beim Streichen über das DEM die ``letzte Ecke'' eines Pixels, er wurde also von der Linie komplett durchlaufen
+ \item die sweep line detektiert beim Streichen über das DEM die \glqq letzte Ecke\grqq eines Pixels, er wurde also von der Linie komplett durchlaufen
 \end{itemize}
 
 Der Pseudocode für den sweep line-Algorithmus ist in Abbildung \ref{pseudo} zu sehen.
@@ -80,7 +80,7 @@ sie dann wie bei einem Radar in einer Kreisbewegung über das DEM streichen (sie
 
 In unserer Implementierung definieren wir den Winkel $0^\circ$ für die sweep line parallel zur x-Achse und sie schneidet zu Beginn des Algorithmus 
 alle Pixel rechts neben dem Standort. Zudem lassen wir die Linie -- wie die Abbildung zeigt -- \textbf{im} Uhrzeigersinn über das DEM kreisen. 
-%Im Gegensatz zur ``normalen'' sweep line, ist hier die Länge der sweep line nicht konstant, sondern hängt vom Setzen des Standorts im DEM ab. 
+%Im Gegensatz zur \glqq normalen\grqq sweep line, ist hier die Länge der sweep line nicht konstant, sondern hängt vom Setzen des Standorts im DEM ab. 
 Im Gegensatz zu einer gewöhnlichen sweep line, ist hier die sweep line keine Gerade, sondern eine Halbgerade die im Standort beginnt. 
 
 Weiterhin haben wir drei Klassen von events definiert: 

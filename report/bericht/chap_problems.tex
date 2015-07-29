@@ -72,7 +72,7 @@ die gerade auf der sweep line liegen -- also allen Pixeln, die rechts neben dem 
 erste event aus der Liste genommen und die Berechnungen durchgeführt. Bevor nun das nächste event aus der Liste genommen wird, wird die event list 
 aktualisiert, d.h. wir berechnen alle Nachbarpixel des aktuellen Pixels und fügen die events dieser Pixel -- vorausgesetzt, dass diese noch nicht in 
 der Liste sind -- ein. Um zu überprüfen, ob die events eines Pixels bereits in der event list sind, wird ein zweidimensionales Array mit 
-den selben Abmessungen wie das DEM erstellt und dort für jeden Pixel ein boolean angelegt, dessen Wert auf ``true'' gesetzt wird, sobald die events 
+den selben Abmessungen wie das DEM erstellt und dort für jeden Pixel ein boolean angelegt, dessen Wert auf \glqq true\grqq gesetzt wird, sobald die events 
 des Pixels einmal in die event list eingefügt wurden.
 
 Die Verbesserung, die sich durch diese Änderung ergibt, ist beachtlich, aber die Laufzeit liegt immer noch weit über der des naiven Algorithmus 
@@ -90,7 +90,7 @@ weitergearbeitet. Die Verbesserung der Laufzeit ist in Kapitel \ref{exp} zu sehe
 Eine weitere ausschlaggebende Verbesserung ist das Ändern der Methode der Sortierung der events in die Liste. Um das event an die richtige Position 
 in der event list einzufügen, wird der Winkel zum Standort berechnet und anhand dessen die Position in der Liste bestimmt. Diese Berechnung wird 
 jedesmal erneut aufgerufen und führt daher zu unnötiger Rechenzeit. Um diesem Problem zuvorzukommen, wird der Wert der Winkel einmal berechnet und 
-dann gespeichert (``gecached''). Dies führt nochmals zu einer großen Verbesserung der Laufzeit (siehe Kapitel \ref{exp}).
+dann gespeichert (\glqq gecached\grqq). Dies führt nochmals zu einer großen Verbesserung der Laufzeit (siehe Kapitel \ref{exp}).
 
 \subsection{Artefakte}
 
