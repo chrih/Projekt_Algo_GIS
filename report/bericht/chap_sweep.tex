@@ -1,9 +1,9 @@
 \section{Der Algorithmus von van Kreveld}
 
-Die Laufzeit des naiven Algorithmus in $O(n^3)$ liegt (wobei $n$ das Maximum aus Breite und Höhe des DEM ist), gibt es einige Überlegungen zu 
+Da die Laufzeit des naiven Algorithmus in $O(n^3)$ liegt (wobei $n$ das Maximum aus Breite und Höhe des DEM ist), gibt es einige Überlegungen zu 
 schnelleren Algorithmen. Als eine Art untere Schranke für die Laufzeit der viewshed-Berechnung kann das Einlesen des DEMs gesehen werden, welches 
 in $O(n^2)$ liegt. Somit sollte eine Verbesserung der Laufzeit möglichst nahe an diese untere Schranke heranreichen. Im Paper von van Kreveld 
-\cite{vanKrev} werden Optimierungsvorschläge vorgestellt und gezeigt, dass die Laufzeit auf $O(n^2)\log n$ verbessert werden kann. 
+\cite{vanKrev} werden Optimierungsvorschläge vorgestellt und gezeigt, dass die Laufzeit auf $O(n^2\log n)$ verbessert werden kann. 
 
 \subsection{Der sweep line-Algorithmus}
 Van Krevelds Algorithmus beruht auf dem Prinzip der sogenannten ``sweep line''. Allgemein ist eine sweep line eine (horizontale) Linie, 
@@ -79,8 +79,9 @@ sie dann wie bei einem Radar in einer Kreisbewegung über das DEM streichen (sie
 \end{figure}
 
 In unserer Implementierung definieren wir den Winkel $0^\circ$ für die sweep line parallel zur x-Achse und sie schneidet zu Beginn des Algorithmus 
-alle Pixel rechts neben dem Standort. Zudem lassen wir die Linie -- wie die Abbildung zeigt -- \textbf{im} Uhrzeigersinn über das DEM kreisen. Im 
-Gegensatz zur ``normalen'' sweep line, ist hier die Länge der sweep line nicht konstant, sondern hängt vom Setzen des Standorts im DEM ab. 
+alle Pixel rechts neben dem Standort. Zudem lassen wir die Linie -- wie die Abbildung zeigt -- \textbf{im} Uhrzeigersinn über das DEM kreisen. 
+%Im Gegensatz zur ``normalen'' sweep line, ist hier die Länge der sweep line nicht konstant, sondern hängt vom Setzen des Standorts im DEM ab. 
+Im Gegensatz zu einer gewöhnlichen sweep line, ist hier die sweep line keine Gerade, sondern eine Halbgerade die im Standort beginnt. 
 
 Weiterhin haben wir drei Klassen von events definiert: 
 \begin{itemize}
