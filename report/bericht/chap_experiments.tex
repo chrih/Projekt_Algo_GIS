@@ -2,6 +2,7 @@
 \label{exp}
 
 \subsection{Laufzeitenanalyse}
+\label{laufzeit}
 
 Für die folgenden Versionen der jeweilige Algorithmen wurden die Laufzeiten bestimmt, diese sind in Tabelle \ref{runtimes} nachzulesen. 
 Die Ausgabe der Algorithmen für die unterschiedlichen Testdaten ist in Abbildung~\ref{dgm_erg} dargestellt. 
@@ -48,3 +49,33 @@ Es ist deutlich zu sehen, dass vor allem die beiden ersten Optimierungen des van
 auch die Tatsache, dass der parallelisierte naive Algorithmus ab einer gewissen (geringen) Größe des DEMs die Laufzeit des van Kreveld-Algorithmus unterbieten 
 kann. 
 Zu beachten ist auch, dass die Ergebnisse trotz unterschiedlicher Auflösung weitgehend übereinstimmen. Somit ist, abhängig vom Zweck der viewshed-Analyse, eine Verwendung geringer aufgelöster Daten zur Einsparung von Rechenzeit durchaus sinnvoll. 
+
+\subsection{Artefakte}
+Bei der Betrachtung der Ergebnisse, welche die getesteten Algorithmen aus Kapitel~\ref{laufzeit} produzieren, lassen sie teilweise geringfügige Abweichungen zueinander feststellen. 
+Des Weiteren gibt es an diagonalen Kanten Artefakte, die bei allen Algorithmen auftreten. 
+
+
+
+Grundsätzlich sind die implementierten Algorithmen exakt bezüglich der Ausgabe und keine Heuristiken. 
+Jedoch gibt es an den Diagonalen, vom Standpunkt ausgehend, oft relativ harte Kanten. 
+Ein Beispiel dafür ist in Abbildung~\ref{dgm_art} gegeben. 
+Vermutlich lässt sich dies dadurch erklären, dass in diesen Situationen viele Pixel gerade neu oder eben nicht mehr auf der Sichtlinie liegen. 
+Somit ändern sich die geschnittenen Pixel sprunghaft und es sind deutliche Kanten sichtbar. 
+
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.5]{bilder/dgm_art}
+ \caption{Artefakt: Kante an der Diagonalen im viewshed}
+ \label{dgm_art}
+\end{figure}
+
+Eine typische Abweichung zwischen den implementierten Algorithmen ist in Abbildung~\ref{dgm_diff} dargestellt. 
+Diese Abbildung ist ein Diff zwischen der Ausgabe von NA und VK. Schwarze Pixel bedeuten eine gleiche Ausgabe beider Algorithmen, weiße Pixel, dass die Algorithmen unterschiedliche Werte ausgegeben haben. 
+Erklären lassen sich die geringfügigen Abweichung durch Unterschiede in der Berechnung der geschnittenen Pixel innerhalb der Algorithmen. 
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=1]{bilder/dgm_diff}
+ \caption{Unterschiede des berechneten viewsheds von NA und VK}
+ \label{dgm_diff}
+\end{figure}
